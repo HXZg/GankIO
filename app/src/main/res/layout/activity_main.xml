@@ -11,11 +11,12 @@
         android:id="@+id/fl_main"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        />
 
     <RadioGroup
         android:layout_width="match_parent"
-        android:layout_height="58dp"
+        android:layout_height="65dp"
         android:orientation="horizontal">
 
         <RadioButton
@@ -25,6 +26,12 @@
             android:gravity="center"
             android:layout_gravity="center"
             android:background="@null"
+            android:button="@null"
+            android:drawableTop="@drawable/home_radio_family"
+            android:text="首页"
+            android:drawablePadding="5dp"
+            android:textSize="16sp"
+            android:textColor="@drawable/main_text_color"
             />
         <RadioButton
             android:layout_width="0dp"
@@ -33,6 +40,12 @@
             android:gravity="center"
             android:layout_gravity="center"
             android:background="@null"
+            android:button="@null"
+            android:drawableTop="@drawable/home_radio_mall"
+            android:text="干货"
+            android:drawablePadding="5dp"
+            android:textSize="16sp"
+            android:textColor="@drawable/main_text_color"
             />
         <RadioButton
             android:layout_width="0dp"
@@ -41,6 +54,12 @@
             android:gravity="center"
             android:layout_gravity="center"
             android:background="@null"
+            android:button="@null"
+            android:drawableTop="@drawable/home_radio_scene"
+            android:text="专题"
+            android:drawablePadding="5dp"
+            android:textSize="16sp"
+            android:textColor="@drawable/main_text_color"
             />
 
     </RadioGroup>

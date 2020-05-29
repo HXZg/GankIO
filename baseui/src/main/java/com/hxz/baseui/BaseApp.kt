@@ -11,7 +11,7 @@ import com.hxz.baseui.util.CrashUtils
  * @Des BaseApp
  * @DATE 2020/5/29  9:24 星期五
  */
-class BaseApp : Application() {
+open class BaseApp : Application() {
 
     override fun onCreate() {
         super.onCreate()

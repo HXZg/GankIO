@@ -8,14 +8,13 @@ class MainActivity : BaseActivity() {
 
     private val fragmentList = arrayListOf<Fragment>()
 
-    override fun bindLayout(): Int = R.layout.activity_main
-
     override fun beforeBindLayout(saveInstanceState: Bundle?) {
 
     }
 
-    override fun initData() {
+    override fun bindLayout(): Int = R.layout.activity_main
 
+    override fun initData() {
     }
 
     private fun switchFragment(index: Int) {
