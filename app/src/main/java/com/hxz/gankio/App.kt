@@ -1,8 +1,6 @@
 package com.hxz.gankio
 
-import android.app.Application
 import com.hxz.baseui.BaseApp
-import com.hxz.baseui.util.AppUtils
 import com.hxz.baseui.util.LogUtils
 
 /**
