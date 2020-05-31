@@ -49,4 +49,8 @@ abstract class BaseMFragment<VM: BaseViewModel> : BaseFragment(),IBaseVM<VM> {
     override fun other(any: Any?) {
 
     }
+
+    override fun LoadingDialog.initLoading() {
+
+    }
 }

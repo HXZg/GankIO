@@ -15,6 +15,6 @@ class App : BaseApp() {
 
     override fun onCreate() {
         super.onCreate()
-        LogUtils.getConfig().setLog2FileSwitch(true).isLogSwitch = true
+//        LogUtils.getConfig().setLog2FileSwitch(true).isLogSwitch = true
     }
 }

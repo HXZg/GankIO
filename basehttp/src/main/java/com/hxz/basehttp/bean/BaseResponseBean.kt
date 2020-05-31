@@ -13,8 +13,8 @@ class BaseResponseBean<T> {
         private const val SUCCESS_STATUS = 100
         private const val CUSTOM_ERROR = -1
 
-        fun customError(e: Exception) : BaseResponseBean<Any> {
-            return BaseResponseBean<Any>().apply {
+        fun<T> customError(e: Exception) : BaseResponseBean<T> {
+            return BaseResponseBean<T>().apply {
                 status = CUSTOM_ERROR
                 errorMsg = e.message ?: ""
             }

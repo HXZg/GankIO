@@ -20,7 +20,7 @@ abstract class BaseBannerAdapter<T>(data: MutableList<T> = arrayListOf()) : Recy
         holder.itemView.setOnClickListener {
             BannerUtils.clickListener?.invoke(getRealPosition(position))
         }
-        convertHolder(holder.itemView,dataList[getRealPosition(position)])
+        convertHolder(holder,dataList[getRealPosition(position)])
     }
 
     override fun getItemCount(): Int {
@@ -43,5 +43,5 @@ abstract class BaseBannerAdapter<T>(data: MutableList<T> = arrayListOf()) : Recy
 
     abstract fun createView(parent: ViewGroup,viewType: Int) : View
 
-    abstract fun convertHolder(view: View,item: T)
+    abstract fun convertHolder(holder: BaseViewHolder,item: T)
 }

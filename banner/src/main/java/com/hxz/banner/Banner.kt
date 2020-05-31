@@ -1,9 +1,18 @@
 package com.hxz.banner
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.util.Log
+import android.view.Gravity
 import android.view.MotionEvent
+import android.view.View
 import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.LinearLayout
+import androidx.annotation.DrawableRes
+import androidx.core.view.marginLeft
 import androidx.viewpager2.widget.ViewPager2
 import com.hxz.banner.adapter.BaseBannerAdapter
 import com.hxz.banner.utils.BannerUtils
@@ -29,6 +38,11 @@ class Banner<T> @JvmOverloads constructor(context: Context, attributes: Attribut
             if (position == 0 || position == BannerUtils.MAX_VALUE_SIZE - 1) {
                 resetCurrentItem(realPosition)
             }
+            if (inDecorateViews.isNotEmpty()) {
+                inDecorateViews[currentPosition].isSelected = false
+                inDecorateViews[realPosition].isSelected = true
+            }
+            currentPosition = realPosition
             pageChangeCallback?.onPageSelected(realPosition)
         }
     }
@@ -51,9 +65,12 @@ class Banner<T> @JvmOverloads constructor(context: Context, attributes: Attribut
 
     private var isStartLoop = false
 
+    private val inDecorateViews = arrayListOf<View>()
+
+    private var currentPosition = 0
+
     init {
         initViewPager()
-        initDecoration()
     }
 
     private fun initViewPager() {
@@ -63,9 +80,38 @@ class Banner<T> @JvmOverloads constructor(context: Context, attributes: Attribut
         addView(mViewPager,params)
     }
 
-    private fun initDecoration() {  // 指示器
+    /**
+     * @param orientation 0: HORIZONTAL 1: VERTICAL
+     * @param gravity  Gravity.LEFT/RIGHT/BOTTOM/TOP
+     */
+    private fun initInDecoration(orientation: Int,gravity: Int,drawables: Array<Drawable>) {  // 指示器
         //TODO  指示器  与  transform  实现
-        val params = LayoutParams(-2,-2)  // 自适应布局
+        val inLinear = LinearLayout(context)
+        inLinear.orientation = orientation
+        val params = LayoutParams(-2,-2).apply {
+            this.gravity = gravity or Gravity.CENTER
+            when(gravity) {
+                Gravity.TOP -> topMargin = 10
+                Gravity.LEFT -> leftMargin = 10
+                Gravity.RIGHT -> rightMargin = 10
+                else -> bottomMargin = 10
+            }
+        } // 自适应布局
+        addInDecorateIv(inLinear,drawables)
+        inDecorateViews[currentPosition].isSelected = true
+        addView(inLinear,params)
+    }
+
+    private fun addInDecorateIv(ll: LinearLayout,drawable: Array<Drawable>) {
+        drawable.forEach {
+            val iv = ImageView(context)
+            iv.background = it
+            val params = LinearLayout.LayoutParams(-2,-2).apply {
+                leftMargin = 20
+            }
+            inDecorateViews.add(iv)
+            ll.addView(iv,params)
+        }
     }
 
     fun setPageClickListener(listener: PageClickListener) {
@@ -79,18 +125,47 @@ class Banner<T> @JvmOverloads constructor(context: Context, attributes: Attribut
     fun setAdapter(adapter: BaseBannerAdapter<T>) {
         this.adapter = adapter
         mViewPager.adapter = adapter
-        resetCurrentItem(0)
-        mViewPager.unregisterOnPageChangeCallback(pageChangeListener)
-        mViewPager.registerOnPageChangeCallback(pageChangeListener)
+        initViewPagerChange()
     }
 
     fun refreshData(list: MutableList<T>) {
         if (::adapter.isInitialized) {
             adapter.setData(list)
-            resetCurrentItem(0)
-            mViewPager.unregisterOnPageChangeCallback(pageChangeListener)
-            mViewPager.registerOnPageChangeCallback(pageChangeListener)
+            initViewPagerChange()
         }
+    }
+
+    private fun initViewPagerChange() {
+        resetCurrentItem(0)
+        mViewPager.unregisterOnPageChangeCallback(pageChangeListener)
+        mViewPager.registerOnPageChangeCallback(pageChangeListener)
+    }
+
+    fun setInDecorate(orientation: Int = LinearLayout.HORIZONTAL,gravity: Int = Gravity.BOTTOM,drawables: Array<Drawable>) {
+        initInDecoration(orientation,gravity,drawables)
+    }
+
+    fun setInDecorate(@DrawableRes unSelect: Int,@DrawableRes select: Int) {
+        val drawables = Array<Drawable>(getListSize()){BannerUtils.createStateListDrawable(resources.getDrawable(unSelect),resources.getDrawable(select))}
+        setInDecorate(drawables = drawables)
+    }
+
+    fun setInDecorateColor(unSelectColor: Int,selectColor: Int) {
+        val drawables = Array(getListSize()){BannerUtils.createColorListDrawable(unSelectColor,selectColor)}
+        setInDecorate(drawables = drawables)
+    }
+
+    fun setInDecorate(@DrawableRes stateDrawable: Int) {
+        val drawables = Array<Drawable>(getListSize()){resources.getDrawable(stateDrawable)}
+        setInDecorate(drawables = drawables)
+    }
+
+    fun setPagerTransform(transform: ViewPager2.PageTransformer) {
+        mViewPager.setPageTransformer(transform)
+    }
+
+    private fun getListSize() : Int {
+        return if (::adapter.isInitialized) adapter.dataList.size else 0
     }
 
     fun setCanLoop(loop: Boolean) {
@@ -103,7 +178,7 @@ class Banner<T> @JvmOverloads constructor(context: Context, attributes: Attribut
         startLoop()
     }
 
-    private fun startLoop(time: Long = AUTO_PLAY_TIME) {
+    fun startLoop(time: Long = AUTO_PLAY_TIME) {
         if (!isStartLoop && BannerUtils.isAutoPlay && ::adapter.isInitialized) {
             isStartLoop = true
             AUTO_PLAY_TIME = time
