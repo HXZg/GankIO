@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
@@ -14,6 +15,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.hxz.banner.Banner
 import com.hxz.banner.adapter.BaseBannerAdapter
 import com.hxz.banner.adapter.BaseViewHolder
+import com.hxz.banner.transform.GalleryPageTransform
 import com.hxz.basehttp.bean.BannerBean
 import com.hxz.baseui.view.BaseMFragment
 import com.hxz.gankio.R
@@ -32,7 +34,7 @@ class HomeFragment : BaseMFragment<HomeViewModel>() {
     private val adapter = object : BaseBannerAdapter<BannerBean>() {
         override fun createView(parent: ViewGroup, viewType: Int): View {
             return ImageView(parent.context).apply {
-                layoutParams = ViewGroup.LayoutParams(-1,-1)
+                layoutParams = ViewGroup.MarginLayoutParams(-1,-1)
                 scaleType = ImageView.ScaleType.CENTER_CROP
             }
         }
@@ -75,7 +77,16 @@ class HomeFragment : BaseMFragment<HomeViewModel>() {
                     Toast.makeText(context,"$it",Toast.LENGTH_SHORT).show()
                 }
                 setInDecorateColor(Color.BLACK,Color.RED)  // 必须在adapter 之后设置
-                setAutoPlay(true)
+                mViewPager.apply {
+                    offscreenPageLimit = 2
+                    (layoutParams as FrameLayout.LayoutParams).apply {
+                        leftMargin = 60
+                        rightMargin = 60
+                    }
+                    clipChildren = false
+                }
+//                setPagerTransform(GalleryPageTransform())
+//                setAutoPlay(true)
             }
         })
     }

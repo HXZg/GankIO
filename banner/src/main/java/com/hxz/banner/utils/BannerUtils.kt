@@ -30,7 +30,7 @@ internal object BannerUtils {
     var clickListener: PageClickListener? = null
 
     fun getResetItem(item: Int,pageSize: Int) : Int {  // 轮播从中间部分开始
-        return if (!isCanLoop) item
+        return if (!isCanLoop || pageSize <=  0) item
         else MAX_VALUE_SIZE / 2 - MAX_VALUE_SIZE / 2 % pageSize + item
     }
 
