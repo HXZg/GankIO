@@ -85,7 +85,7 @@ class HomeFragment : BaseMFragment<HomeViewModel>() {
                     }
                     clipChildren = false
                 }
-//                setPagerTransform(GalleryPageTransform())
+                setPagerTransform(GalleryPageTransform())
 //                setAutoPlay(true)
             }
         })
