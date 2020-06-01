@@ -16,6 +16,8 @@ class HomeViewModel : BaseViewModel() {
 
     fun getBanner() {
         viewModelScope.launch {
+            async { repository.cacheException { repository.api.getCategoryType("Girl") } }
+            async { repository.cacheException { repository.api.getHotList("","",10) } }
             val join = async { repository.cacheException { repository.api.getBanners() } }
             homeData(join.await())
         }

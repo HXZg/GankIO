@@ -14,9 +14,9 @@ class GalleryPageTransform : ViewPager2.PageTransformer {
     private val MIN_SCALE = 0.8f
 
     override fun transformPage(page: View, position: Float) {
-        val offset = position * -20
+        val offset = position * 20
         Log.i("banner_view","$position  $offset")
-        page.translationX = -offset           // viewpager2  中没有设置pagerMargin 得方法  用这个方法设置view 得偏移量，作为page 得间距
+        page.translationX = offset           // viewpager2  中没有设置pagerMargin 得方法  用这个方法设置view 得偏移量，作为page 得间距
 //        val scale = max(MIN_SCALE,1- abs(position))
 //        val rotate = 10 * abs(position)
         when{
