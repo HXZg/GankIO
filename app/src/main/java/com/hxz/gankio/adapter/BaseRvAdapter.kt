@@ -14,8 +14,14 @@ abstract class BaseRvAdapter<DATA>(private val data: MutableList<DATA> = arrayLi
         private const val HEAD_VIEW = 0
         private const val FOOT_VIEW = 1
         private const val NORMAL = 2
+        private const val EMPTY_VIEW = 3
     }
 
+    var emptyView : View? = null
+    set(value) {
+        field = value
+        notifyDataSetChanged()
+    }
     private val headViews = arrayListOf<View>()
     private val footViews = arrayListOf<View>()
 
@@ -27,6 +33,7 @@ abstract class BaseRvAdapter<DATA>(private val data: MutableList<DATA> = arrayLi
         when(getItemViewType(position)) {
             HEAD_VIEW -> holder.addItemViews(headViews)
             FOOT_VIEW -> holder.addItemViews(footViews)
+            EMPTY_VIEW -> {}  // 显示 empty view 不做特殊处理
             else -> convertViewHolder(holder,data = data[position - isHead()])
         }
     }
@@ -41,6 +48,7 @@ abstract class BaseRvAdapter<DATA>(private val data: MutableList<DATA> = arrayLi
         val v = when(viewType) {
             NORMAL -> if (layout != 0) LayoutInflater.from(parent.context).inflate(layout,parent,false) else createNormalView(parent, viewType)
             HEAD_VIEW -> getHeadAndFootView(parent.context)
+            EMPTY_VIEW -> emptyView!!
             else -> getHeadAndFootView(parent.context)
         }
         return BaseRvHolder(v)
@@ -97,7 +105,7 @@ abstract class BaseRvAdapter<DATA>(private val data: MutableList<DATA> = arrayLi
      * 重写此方法 实现多type position 实际去掉头部开始
      */
     protected fun createItemType(position: Int) : Int {
-        return NORMAL
+        return if (data.isEmpty() && emptyView != null) EMPTY_VIEW else NORMAL
     }
 
     override fun getItemCount(): Int = getDataCount() + isHeadAndFoot()
@@ -110,7 +118,7 @@ abstract class BaseRvAdapter<DATA>(private val data: MutableList<DATA> = arrayLi
     }
 
     /**
-     * 重写此方法  默认返回数据大小
+     * 重写此方法  默认返回数据大小  若数据为空，则显示emptyView
      */
-    protected fun getDataCount() = data.size
+    protected fun getDataCount() = if (data.isEmpty() && emptyView != null) 1 else data.size
 }

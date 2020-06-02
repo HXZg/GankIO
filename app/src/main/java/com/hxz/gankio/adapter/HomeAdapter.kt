@@ -1,9 +1,11 @@
 package com.hxz.gankio.adapter
 
 import android.content.Context
+import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.hxz.banner.Banner
 import com.hxz.banner.adapter.BaseBannerAdapter
@@ -23,7 +25,10 @@ class HomeAdapter(context: Context) : BaseRvAdapter<ArticleListBean>(layout = R.
     init {
         addHeaderView(bannerView)
         addHeaderView(imageView)
+        emptyView = getEmptyView(context)
     }
+
+    private var isShowError = false
 
     override fun convertViewHolder(holder: BaseRvHolder, data: ArticleListBean) {
 
@@ -55,18 +60,22 @@ class HomeAdapter(context: Context) : BaseRvAdapter<ArticleListBean>(layout = R.
         }
     }
 
+    private fun getEmptyView(context: Context) : View {
+        return TextView(context).apply {
+            layoutParams = RecyclerView.LayoutParams(-1,-1)
+            textSize = 16f
+            setTextColor(Color.BLACK)
+            setBackgroundColor(Color.WHITE)
+            text = "没有获取到数据噢~~~"
+        }
+    }
+
     fun setHomeBean(bean: HomeBean) {
 //        if (bean.isSuccess)
-        if (bean.bannerList.isNotEmpty() && bean.girlList.isNotEmpty()) {
-            setBannerAndIvData(bean.bannerList,bean.girlList[0])
-        } else {
-//            removeHeaderView(null)  隐藏头部view
-        }
+        if (bean.bannerList.isNotEmpty()) bannerView.refreshData(bean.bannerList) else removeHeaderView(bannerView)
+        if (bean.girlList.isNotEmpty()) imageView.loadUrl(bean.girlList[0].coverImageUrl) else removeHeaderView(imageView)
         setNewData(bean.articleList)
     }
 
-    private fun setBannerAndIvData(banner: MutableList<BannerBean>,bean: CategoryTypeBean) {
-        bannerView.refreshData(banner)
-        imageView.loadUrl(bean.coverImageUrl)
-    }
+
 }
