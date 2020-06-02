@@ -5,16 +5,14 @@ import androidx.core.view.forEachIndexed
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.hxz.baseui.view.BaseActivity
+import com.hxz.gankio.fragment.ArticleFragment
+import com.hxz.gankio.fragment.GankFragment
 import com.hxz.gankio.fragment.HomeFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
 
     private val fragmentList = arrayListOf<Fragment>()
-
-    override fun beforeBindLayout(saveInstanceState: Bundle?) {
-
-    }
 
     override fun bindLayout(): Int = R.layout.activity_main
 
@@ -41,7 +39,8 @@ class MainActivity : BaseActivity() {
     }
 
     private fun getFragment(index: Int) = when(index) {
-        0 -> HomeFragment()
+        1 -> GankFragment()
+        2 -> ArticleFragment()
         else -> HomeFragment()
     }
 }

@@ -31,4 +31,8 @@ abstract class BaseFragment : Fragment(),IBaseView {
         super.onViewCreated(view, savedInstanceState)
         initData()
     }
+
+    override fun beforeBindLayout(saveInstanceState: Bundle?) {
+
+    }
 }

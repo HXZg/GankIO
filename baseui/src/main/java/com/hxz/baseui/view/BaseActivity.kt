@@ -21,4 +21,8 @@ abstract class BaseActivity : AppCompatActivity(),IBaseView {
         initData()
     }
 
+    override fun beforeBindLayout(saveInstanceState: Bundle?) {
+
+    }
+
 }

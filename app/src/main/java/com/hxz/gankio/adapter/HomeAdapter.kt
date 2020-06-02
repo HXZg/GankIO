@@ -15,32 +15,18 @@ import com.hxz.gankio.R
 import com.hxz.gankio.utils.dp2px
 import com.hxz.gankio.utils.loadUrl
 
-class HomeAdapter : BaseBannerAdapter<Any>() {
+class HomeAdapter(context: Context) : BaseRvAdapter<ArticleListBean>(layout = R.layout.item_home) {
 
-    companion object{
-        private const val ITEM_TYPE_BANNER = 0
-        private const val ITEM_TYPE_GIRL = 1
-        private const val ITEM_TYPE_ARTICLE = 2
+    private val bannerView by lazy { getBannerView(context) }
+    private val imageView by lazy { getImageView(context) }
+
+    init {
+        addHeaderView(bannerView)
+        addHeaderView(imageView)
     }
 
-    override fun createView(parent: ViewGroup, viewType: Int): View {
-        return when(viewType) {
-            ITEM_TYPE_BANNER -> getBannerView(parent.context)
-            ITEM_TYPE_GIRL -> getImageView(parent.context)
-            else -> View.inflate(parent.context, R.layout.item_home,null)
-        }
-    }
+    override fun convertViewHolder(holder: BaseRvHolder, data: ArticleListBean) {
 
-    override fun convertHolder(holder: BaseViewHolder, item: Any) {
-
-    }
-
-    override fun getItemViewType(position: Int): Int {
-        return when(position) {
-            0 -> ITEM_TYPE_BANNER
-            1 -> ITEM_TYPE_GIRL
-            else -> ITEM_TYPE_ARTICLE
-        }
     }
 
     private fun getBannerView(context: Context) : Banner<BannerBean> {
@@ -69,16 +55,18 @@ class HomeAdapter : BaseBannerAdapter<Any>() {
         }
     }
 
-    class HomeBean private  constructor(val type: Int) {
-        companion object {
-            fun getHomeBannerBean(list: ArrayList<BannerBean>) = HomeBean(ITEM_TYPE_BANNER).apply {
-                bannerList.addAll(list)
-            }
-
-
+    fun setHomeBean(bean: HomeBean) {
+//        if (bean.isSuccess)
+        if (bean.bannerList.isNotEmpty() && bean.girlList.isNotEmpty()) {
+            setBannerAndIvData(bean.bannerList,bean.girlList[0])
+        } else {
+//            removeHeaderView(null)  隐藏头部view
         }
-        val bannerList = arrayListOf<BannerBean>()
-        val girlBean = arrayListOf<CategoryTypeBean>()
-        val articleListBean = arrayListOf<ArticleListBean>()
+        setNewData(bean.articleList)
+    }
+
+    private fun setBannerAndIvData(banner: MutableList<BannerBean>,bean: CategoryTypeBean) {
+        bannerView.refreshData(banner)
+        imageView.loadUrl(bean.coverImageUrl)
     }
 }
