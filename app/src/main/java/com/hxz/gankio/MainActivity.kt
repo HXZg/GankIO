@@ -31,7 +31,7 @@ class MainActivity : BaseActivity() {
             fragmentList.forEach { hide(it) }
             if (fragmentList.size <= index) {
                 val fragment = getFragment(index)
-                add(R.id.fl_main,fragment)
+                add(R.id.fl_main,fragment,getFragmentTag(index))
                 fragmentList.add(fragment)
             } else {
                 show(fragmentList[index])
@@ -39,9 +39,17 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private fun getFragment(index: Int) = when(index) {
-        1 -> GankFragment()
-        2 -> ArticleFragment()
-        else -> HomeFragment()
+    private fun getFragment(index: Int) : Fragment {
+        val fragment = supportFragmentManager.findFragmentByTag(getFragmentTag(index))
+        if (fragment != null) return fragment
+        return when(index) {
+            1 -> GankFragment()
+            2 -> ArticleFragment()
+            else -> HomeFragment()
+        }
+    }
+
+    private fun getFragmentTag(index: Int) : String {
+        return "main fragment:$index"
     }
 }
