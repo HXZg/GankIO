@@ -2,25 +2,23 @@ package com.hxz.banner.adapter
 
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
-import com.hxz.banner.Banner
 import com.hxz.banner.utils.BannerUtils
 
-abstract class BaseBannerAdapter<T>(data: MutableList<T> = arrayListOf()) : RecyclerView.Adapter<BaseViewHolder>() {
+abstract class BaseBannerAdapter<T>(data: MutableList<T> = arrayListOf()) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var dataList : MutableList<T> = data
     private set
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
-        return BaseViewHolder(createView(parent, viewType))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return object : RecyclerView.ViewHolder(createView(parent, viewType)){}
     }
 
-    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         holder.itemView.setOnClickListener {
-            BannerUtils.clickListener?.invoke(getRealPosition(position))
+            BannerUtils.clickListener?.invoke(BannerUtils.getRealPosition(position,dataList.size))
         }
-        convertHolder(holder,dataList[getRealPosition(position)])
+        if (dataList.isNotEmpty()) convertHolder(holder,dataList[BannerUtils.getRealPosition(position,dataList.size)])
     }
 
     override fun getItemCount(): Int {
@@ -37,11 +35,7 @@ abstract class BaseBannerAdapter<T>(data: MutableList<T> = arrayListOf()) : Recy
         notifyItemChanged(dataList.size)
     }
 
-    fun getRealPosition(position: Int) : Int {
-       return position % dataList.size
-    }
-
     abstract fun createView(parent: ViewGroup,viewType: Int) : View
 
-    abstract fun convertHolder(holder: BaseViewHolder,item: T)
+    abstract fun convertHolder(holder: RecyclerView.ViewHolder,item: T)
 }

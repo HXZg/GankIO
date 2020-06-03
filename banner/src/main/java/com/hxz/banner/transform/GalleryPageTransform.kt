@@ -10,12 +10,12 @@ import kotlin.math.max
 /**
  * 画廊效果 transform  就是再两边得item view 绘制出来，并且进行相应得缩放，需要得话，可以加上alpha 或 rotate 变化
  */
-class GalleryPageTransform : ViewPager2.PageTransformer {
+class GalleryPageTransform(private val margin: Int) : ViewPager2.PageTransformer {
     private val MIN_SCALE = 0.8f
+    private val MIN_ALPHA = 0.8f
 
     override fun transformPage(page: View, position: Float) {
-        val offset = position * 20
-        Log.i("banner_view","$position  $offset")
+        val offset = position * margin
         page.translationX = offset           // viewpager2  中没有设置pagerMargin 得方法  用这个方法设置view 得偏移量，作为page 得间距
 //        val scale = max(MIN_SCALE,1- abs(position))
 //        val rotate = 10 * abs(position)
@@ -24,6 +24,7 @@ class GalleryPageTransform : ViewPager2.PageTransformer {
                 page.apply {
 //                    scaleX = MIN_SCALE
                     scaleY = MIN_SCALE
+                    alpha = MIN_ALPHA
 //                    rotationY = rotate
                 }
             }
@@ -31,6 +32,7 @@ class GalleryPageTransform : ViewPager2.PageTransformer {
                 page.apply {
 //                    scaleX = scale
                     scaleY = MIN_SCALE + (1 + position) * (1 - MIN_SCALE)
+                    alpha = MIN_ALPHA + (1 + position) * (1 - MIN_ALPHA)
 //                    rotationY = rotate
                 }
             }
@@ -38,6 +40,7 @@ class GalleryPageTransform : ViewPager2.PageTransformer {
                 page.apply {
 //                    scaleX = scale
                     scaleY = MIN_SCALE + (1 - position) * (1 - MIN_SCALE)
+                    alpha = MIN_ALPHA + (1 - position) * (1 - MIN_ALPHA)
 //                    rotationY = -rotate
                 }
             }
@@ -45,6 +48,7 @@ class GalleryPageTransform : ViewPager2.PageTransformer {
                 page.apply {
 //                    scaleX = scale
                     scaleY = MIN_SCALE
+                    alpha = MIN_ALPHA
 //                    rotationY = -rotate
                 }
             }

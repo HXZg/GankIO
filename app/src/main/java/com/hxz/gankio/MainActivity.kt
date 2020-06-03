@@ -23,6 +23,7 @@ class MainActivity : BaseActivity() {
         rg_main.setOnCheckedChangeListener { group, checkedId ->
             switchFragment(checkedId)
         }
+        rg_main.check(0)
     }
 
     private fun switchFragment(index: Int) {

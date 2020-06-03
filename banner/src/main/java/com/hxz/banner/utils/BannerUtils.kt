@@ -44,7 +44,7 @@ internal object BannerUtils {
     fun createColorListDrawable(unSelect: Int,select: Int) : Drawable = createStateListDrawable(
         createDrawable(unSelect), createDrawable(select))
 
-    private fun createDrawable(color: Int) : Drawable{
+    fun createDrawable(color: Int) : Drawable{
         val drawable = GradientDrawable()
         drawable.setColor(color)
         drawable.setBounds(0,0, DEFAULT_POINT_SIZE, DEFAULT_POINT_SIZE)
@@ -52,5 +52,9 @@ internal object BannerUtils {
         drawable.cornerRadius = (DEFAULT_POINT_SIZE / 2).toFloat()
         drawable.setSize(DEFAULT_POINT_SIZE,DEFAULT_POINT_SIZE)
         return drawable
+    }
+
+    fun getRealPosition(position: Int,size: Int) : Int {
+        return if (size <= 0) 0 else position % size
     }
 }

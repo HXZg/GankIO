@@ -1,23 +1,8 @@
 package com.hxz.gankio.fragment
 
-import android.graphics.Color
-import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.hxz.banner.Banner
-import com.hxz.banner.adapter.BaseBannerAdapter
-import com.hxz.banner.adapter.BaseViewHolder
-import com.hxz.banner.transform.GalleryPageTransform
-import com.hxz.basehttp.bean.BannerBean
 import com.hxz.baseui.view.BaseMFragment
 import com.hxz.gankio.R
 import com.hxz.gankio.adapter.HomeAdapter
@@ -52,6 +37,7 @@ class HomeFragment : BaseMFragment<HomeViewModel>() {
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
+        homeAdapter.hiddenChange(hidden)
     }
 
     private fun initLiveObserve() {

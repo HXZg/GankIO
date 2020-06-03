@@ -36,8 +36,8 @@ interface GankApi {
     count: [10, 50]
     page: >=1
      */
-    @GET("data/article/{article}}/type/{type}/page/{page}/count/{count}")
-    suspend fun getArticleList(@Path("article") category: String,@Path("type") type: String,
+    @GET("data/category/{category}/type/{type}/page/{page}/count/{count}")
+    suspend fun getArticleList(@Path("category") category: String,@Path("type") type: String,
                                 @Path("page") page: Int,@Path("count") count: Int) : BaseResponseBean<ArrayList<ArticleListBean>>
 
     /**
@@ -46,7 +46,7 @@ interface GankApi {
     article 可接受参数 Article | GanHuo | Girl
     count: [1, 20]
      */
-    @GET("hot/{hot_type}/article/{article}/count/{count}")
+    @GET("hot/{hot_type}/category/{article}/count/{count}")
     suspend fun getHotList(@Path("hot_type") hot_type: String,
         @Path("article") category: String,@Path("count") count: Int) : BaseResponseBean<ArrayList<ArticleListBean>>
 

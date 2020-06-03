@@ -1,4 +1,4 @@
-package com.hxz.gankio.adapter
+package com.hxz.gankio.bean
 
 import com.hxz.basehttp.bean.ArticleListBean
 import com.hxz.basehttp.bean.BannerBean
@@ -15,7 +15,9 @@ class HomeBean private constructor() {
             return HomeBean().apply {
                 if (banner.isSuccess()) bannerList.addAll(banner.data!!)
                 if (girl.isSuccess()) girlList.addAll(girl.data!!)
-                if (article.isSuccess()) articleList.addAll(article.data!!)
+                if (article.isSuccess()) {
+                    articleList.addAll(article.data!!)
+                }
                 if (!banner.isSuccess() || !girl.isSuccess() || !article.isSuccess()) {
                     isSuccess = false
                     error(banner.errorMsg,girl.errorMsg,article.errorMsg)
@@ -26,8 +28,9 @@ class HomeBean private constructor() {
 
     var isSuccess = true
 
-    // 如果有上拉加载逻辑，可以再这里维护page
     val bannerList = arrayListOf<BannerBean>()
     val girlList = arrayListOf<CategoryTypeBean>()
     val articleList = arrayListOf<ArticleListBean>()
+
+
 }
