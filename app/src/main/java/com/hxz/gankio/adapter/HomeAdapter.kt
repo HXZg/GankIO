@@ -106,10 +106,6 @@ class HomeAdapter(context: Context) : BaseRvAdapter<ArticleListBean>(layout = R.
         setNewData(bean.articleList)
     }
 
-    fun loadData(list: ArrayList<ArticleListBean>) {
-
-    }
-
     fun hiddenChange(hidden: Boolean) {
         if (hidden) {
             bannerView.stopLoop()

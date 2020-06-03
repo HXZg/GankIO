@@ -64,6 +64,12 @@ abstract class BaseRvAdapter<DATA>(private val data: MutableList<DATA> = arrayLi
         notifyDataSetChanged()
     }
 
+    fun loadDataList(list: MutableList<DATA>) {
+        val positionStart = itemCount
+        data.addAll(list)
+        notifyItemRangeInserted(positionStart,list.size)
+    }
+
     fun addHeaderView(view: View) {
         headViews.add(view)
         notifyItemChanged(0)
