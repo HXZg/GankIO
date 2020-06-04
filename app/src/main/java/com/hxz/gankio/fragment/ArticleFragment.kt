@@ -5,7 +5,9 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hxz.baseui.view.BaseFragment
 import com.hxz.gankio.R
+import com.hxz.gankio.activity.ArticleListActivity
 import com.hxz.gankio.adapter.CategoryAdapter
+import com.hxz.gankio.repository.BaseRepository
 import com.hxz.gankio.viewmodel.ArticleViewModel
 import kotlinx.android.synthetic.main.fragment_article.*
 
@@ -24,6 +26,10 @@ class ArticleFragment : BaseFragment() {
         mViewModel.getArticleType().observe(this, Observer {
             articleAdapter.setNewData(it.data ?: arrayListOf())
         })
+
+        articleAdapter.setClickInvoke { position, data ->
+            ArticleListActivity.startArticleList(requireContext(),BaseRepository.CATEGORY_ARTICLE,data.type)
+        }
     }
 }
 

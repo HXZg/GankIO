@@ -25,6 +25,16 @@ abstract class BaseRvAdapter<DATA>(private val data: MutableList<DATA> = arrayLi
     private val headViews = arrayListOf<View>()
     private val footViews = arrayListOf<View>()
 
+    var clickListener : RvClickListener<DATA>? = null
+
+    fun setClickInvoke(action: (position: Int,data: DATA) -> Unit) {
+        clickListener = object : RvClickListener<DATA> {
+            override fun click(position: Int, data: DATA) {
+                action(position,data)
+            }
+        }
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseRvHolder {
         return createHolder(parent, viewType)
     }
@@ -34,7 +44,10 @@ abstract class BaseRvAdapter<DATA>(private val data: MutableList<DATA> = arrayLi
             HEAD_VIEW -> holder.addItemViews(headViews)
             FOOT_VIEW -> holder.addItemViews(footViews)
             EMPTY_VIEW -> {}  // 显示 empty view 不做特殊处理
-            else -> convertViewHolder(holder,data = data[position - isHead()])
+            else -> {
+                holder.itemView.setOnClickListener { clickListener?.click(position,data = data[position - isHead()]) }
+                convertViewHolder(holder,data = data[position - isHead()])
+            }
         }
     }
 
@@ -127,4 +140,8 @@ abstract class BaseRvAdapter<DATA>(private val data: MutableList<DATA> = arrayLi
      * 重写此方法  默认返回数据大小  若数据为空，则显示emptyView
      */
     protected fun getDataCount() = if (data.isEmpty() && emptyView != null) 1 else data.size
+
+    interface RvClickListener<DATA> {
+        fun click(position: Int,data: DATA)
+    }
 }

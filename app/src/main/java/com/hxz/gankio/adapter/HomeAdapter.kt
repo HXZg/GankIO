@@ -15,27 +15,32 @@ import com.hxz.basehttp.bean.ArticleListBean
 import com.hxz.basehttp.bean.BannerBean
 import com.hxz.gankio.R
 import com.hxz.gankio.bean.HomeBean
-import com.hxz.gankio.utils.HomeClickListener
 import com.hxz.gankio.utils.dp2px
 import com.hxz.gankio.utils.loadUrl
+
+typealias HomeClickListener = (type: Int,msg: String) -> Unit
 
 class HomeAdapter(context: Context) : BaseRvAdapter<ArticleListBean>(layout = R.layout.item_home) {
 
     companion object {
         const val ITEM_BANNER = 0
-        const val ITEM_IMAGE = 1
-        const val ITEM_ARTICLE = 2
+        const val ITEM_GIRL = 1
+        const val ITEM_EMPTY = 2
+        const val ITEM_ARTICLE = 3
     }
 
     private val bannerView by lazy { getBannerView(context) }
     private val imageView by lazy { getImageView(context) }
 
-    private var click: HomeClickListener? = null
+    var click : HomeClickListener? = null
 
     init {
         addHeaderView(bannerView)
         addHeaderView(imageView)
         emptyView = getEmptyView(context)
+        setClickInvoke { position, data ->
+            click?.invoke(ITEM_ARTICLE,data._id)
+        }
     }
 
     override fun convertViewHolder(holder: BaseRvHolder, data: ArticleListBean) {
@@ -70,7 +75,7 @@ class HomeAdapter(context: Context) : BaseRvAdapter<ArticleListBean>(layout = R.
             setGallery(60,2)
             setInDecorateColor(Color.BLACK,Color.BLUE)
             setPageClickListener {
-
+                click?.invoke(ITEM_BANNER,adapter.dataList[it].url)
             }
             setAutoPlay(true)
         }
@@ -83,6 +88,9 @@ class HomeAdapter(context: Context) : BaseRvAdapter<ArticleListBean>(layout = R.
                 bottomMargin = 5.dp2px(context)
                 leftMargin = 10.dp2px(context)
                 rightMargin = 10.dp2px(context)
+                setOnClickListener {
+                    click?.invoke(ITEM_GIRL,"Girl")
+                }
             }
 //            scaleType = ImageView.ScaleType.CENTER_CROP
         }
@@ -96,6 +104,9 @@ class HomeAdapter(context: Context) : BaseRvAdapter<ArticleListBean>(layout = R.
             setTextColor(Color.BLACK)
             setBackgroundColor(Color.WHITE)
             text = "没有获取到数据噢~~~"
+            setOnClickListener {
+                click?.invoke(ITEM_EMPTY,"")
+            }
         }
     }
 

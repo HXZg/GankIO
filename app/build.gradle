@@ -52,6 +52,7 @@ dependencies {
     implementation project(':baseui')
     implementation project(':banner')
     implementation project(':basehttp')
+    implementation project(':magicindicator')
 
     implementation 'com.github.bumptech.glide:glide:4.9.0'
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hxz.baseui.view.BaseMFragment
 import com.hxz.gankio.R
+import com.hxz.gankio.activity.ArticleListActivity
 import com.hxz.gankio.adapter.HomeAdapter
 import com.hxz.gankio.viewmodel.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -26,14 +27,22 @@ class HomeFragment : BaseMFragment<HomeViewModel>() {
 
     override fun initData() {
         initRvHome()
-        showDialog("加载中。。。")
         viewModel.getHomeData()
-        initLiveObserve()
+        getHomeData()
     }
 
     private fun initRvHome() {
         rv_home.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
         rv_home.adapter = homeAdapter
+
+        homeAdapter.click = {type,msg ->
+            when(type) {
+                HomeAdapter.ITEM_BANNER -> {}
+                HomeAdapter.ITEM_EMPTY -> getHomeData()
+                HomeAdapter.ITEM_GIRL -> ArticleListActivity.startArticleList(requireContext(),msg,msg)
+                HomeAdapter.ITEM_ARTICLE -> {}
+            }
+        }
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
@@ -41,12 +50,17 @@ class HomeFragment : BaseMFragment<HomeViewModel>() {
         homeAdapter.hiddenChange(hidden)
     }
 
-    private fun initLiveObserve() {
+    private fun getHomeData() {
         viewModel.getHomeData().observe(this, Observer {
             if (it.isSuccess() && it.data != null) {
                 homeAdapter.setHomeBean(it.data!!)
-                dismissDialog()
             }
+        })
+    }
+
+    private fun loadData() {
+        viewModel.loadData(1).observe(this, Observer {
+
         })
     }
 }
