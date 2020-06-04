@@ -1,7 +1,9 @@
 package com.hxz.gankio.repository
 
+import androidx.lifecycle.liveData
 import com.hxz.basehttp.RetrofitManager
 import com.hxz.basehttp.bean.BaseResponseBean
+import kotlinx.coroutines.Dispatchers
 
 open class BaseRepository {
 
@@ -19,11 +21,12 @@ open class BaseRepository {
 
     val api by lazy { RetrofitManager.api }
 
-    suspend fun<T> cacheException(action: suspend () -> BaseResponseBean<T>) : BaseResponseBean<T> {
-        return try {
-            action.invoke()
+    fun<T> fire(block: suspend () -> BaseResponseBean<T>) = liveData<BaseResponseBean<T>>(Dispatchers.IO) {
+        val result = try {
+            block()
         }catch (e: Exception) {
-            BaseResponseBean.customError(e)
+            BaseResponseBean.customError<T>(e)
         }
+        emit(result)
     }
 }

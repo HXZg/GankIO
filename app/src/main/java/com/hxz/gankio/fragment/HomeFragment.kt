@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
  */
 class HomeFragment : BaseMFragment<HomeViewModel>() {
 
-    private val homeAdapter by lazy { HomeAdapter(context!!) }
+    private val homeAdapter by lazy { HomeAdapter(requireContext()) }
 
     override fun createVM(): HomeViewModel = viewModels<HomeViewModel>().value
 
@@ -26,6 +26,7 @@ class HomeFragment : BaseMFragment<HomeViewModel>() {
 
     override fun initData() {
         initRvHome()
+        showDialog("加载中。。。")
         viewModel.getHomeData()
         initLiveObserve()
     }
@@ -41,14 +42,11 @@ class HomeFragment : BaseMFragment<HomeViewModel>() {
     }
 
     private fun initLiveObserve() {
-        viewModel.homeLive.observe(this, Observer {
-            homeAdapter.setHomeBean(it)
+        viewModel.getHomeData().observe(this, Observer {
+            if (it.isSuccess() && it.data != null) {
+                homeAdapter.setHomeBean(it.data!!)
+                dismissDialog()
+            }
         })
-    }
-
-    override fun other(any: Any?) {
-        if (any == 0) {  // 因为可以只显示部分数据，所以没做处理
-            // 数据获取出错  显示错误页面
-        }
     }
 }

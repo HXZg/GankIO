@@ -16,25 +16,25 @@ abstract class BaseMActivity<VM: BaseViewModel> : BaseActivity(),IBaseVM<VM> {
 
     protected val viewModel by lazy { createVM() }
 
-    protected lateinit var mLoading : LoadingDialog
-
-    override fun onStart() {
-        super.onStart()
-        initLiveEvent(viewModel,this)
-        mLoading = LoadingDialog(this).apply {
+    protected val mLoading : LoadingDialog by lazy {
+        LoadingDialog(this).apply {
             initLoading()
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        initLiveEvent(viewModel,this)
+    }
+
     override fun showDialog(msg: String?) {
-        if (::mLoading.isInitialized) {
-            mLoading.setMessage(msg ?: "")
-            mLoading.show()
-        }
+        if (mLoading.isShowing) return
+        mLoading.setMessage(msg ?: "")
+        mLoading.show()
     }
 
     override fun dismissDialog() {
-        if (::mLoading.isInitialized && mLoading.isShowing) mLoading.dismiss()
+        if (mLoading.isShowing) mLoading.dismiss()
     }
 
     override fun showToast(msg: String) {

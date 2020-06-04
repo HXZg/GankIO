@@ -1,6 +1,8 @@
 package com.hxz.gankio.repository
 
+import kotlinx.coroutines.coroutineScope
+
 class ArticleRepository : BaseRepository() {
 
-    suspend fun getArticleList() = cacheException { api.getCategoryType(CATEGORY_ARTICLE) }
+    fun getArticleList() = fire { api.getCategoryType(CATEGORY_ARTICLE) }
 }

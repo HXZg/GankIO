@@ -1,15 +1,11 @@
 package com.hxz.gankio.viewmodel
 
-import androidx.lifecycle.viewModelScope
 import com.hxz.baseui.viewmodel.BaseViewModel
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import com.hxz.gankio.repository.ArticleRepository
 
 class ArticleViewModel : BaseViewModel() {
 
-    fun getArticleData() {
-        viewModelScope.launch {
-            val list = async {  }
-        }
-    }
+    private val repository by lazy { ArticleRepository() }
+
+    fun getArticleType() = repository.getArticleList()
 }

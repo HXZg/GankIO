@@ -17,25 +17,25 @@ abstract class BaseMFragment<VM: BaseViewModel> : BaseFragment(),IBaseVM<VM> {
 
     protected val viewModel by lazy { createVM() }
 
-    protected lateinit var mLoading : LoadingDialog
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        initLiveEvent(viewModel,this)
-        mLoading = LoadingDialog(context!!).apply {
+    protected val mLoading : LoadingDialog by lazy {
+        LoadingDialog(context!!).apply {
             initLoading()
         }
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        initLiveEvent(viewModel,this)
+    }
+
     override fun showDialog(msg: String?) {
-        if (::mLoading.isInitialized) {
-            mLoading.setMessage(msg ?: "")
-            mLoading.show()
-        }
+        if (mLoading.isShowing) return
+        mLoading.setMessage(msg ?: "")
+        mLoading.show()
     }
 
     override fun dismissDialog() {
-        if (::mLoading.isInitialized && mLoading.isShowing) mLoading.dismiss()
+        if (mLoading.isShowing) mLoading.dismiss()
     }
 
     override fun showToast(msg: String) {

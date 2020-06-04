@@ -1,18 +1,22 @@
 package com.hxz.gankio
 
-import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.core.view.forEachIndexed
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import androidx.lifecycle.Observer
 import com.hxz.baseui.view.BaseActivity
 import com.hxz.gankio.fragment.ArticleFragment
 import com.hxz.gankio.fragment.GankFragment
 import com.hxz.gankio.fragment.HomeFragment
+import com.hxz.gankio.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
 
-    private val fragmentList = arrayListOf<Fragment>()
+    private val mViewModel = viewModels<MainViewModel>()
+
+    private val fragmentList = Array<Fragment?>(3){null}
 
     override fun bindLayout(): Int = R.layout.activity_main
 
@@ -21,27 +25,35 @@ class MainActivity : BaseActivity() {
             view.id = index
         }
         rg_main.setOnCheckedChangeListener { group, checkedId ->
-            switchFragment(checkedId)
+            mViewModel.value.saveIndex(checkedId)
         }
+        mViewModel.value.getIndexPage().observe(this, Observer {
+            if (it != null && it in 0..2) switchFragment(it)
+        })
         rg_main.check(0)
     }
 
     private fun switchFragment(index: Int) {
         supportFragmentManager.commit {
-            fragmentList.forEach { hide(it) }
-            if (fragmentList.size <= index) {
-                val fragment = getFragment(index)
-                add(R.id.fl_main,fragment,getFragmentTag(index))
-                fragmentList.add(fragment)
+            fragmentList.forEach { if (it != null) hide(it) }
+            var f = fragmentList[index]
+            if (f != null) {
+                show(f)
             } else {
-                show(fragmentList[index])
+                f = supportFragmentManager.findFragmentByTag(getFragmentTag(index))
+                if (f == null) {
+                    f = getFragment(index)
+                    add(R.id.fl_main,f,getFragmentTag(index))
+                }else {
+                    show(f)
+                }
+                fragmentList[index] = f
+
             }
         }
     }
 
     private fun getFragment(index: Int) : Fragment {
-        val fragment = supportFragmentManager.findFragmentByTag(getFragmentTag(index))
-        if (fragment != null) return fragment
         return when(index) {
             1 -> GankFragment()
             2 -> ArticleFragment()

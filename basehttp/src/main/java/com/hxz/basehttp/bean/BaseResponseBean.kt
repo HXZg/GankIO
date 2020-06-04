@@ -19,6 +19,11 @@ class BaseResponseBean<T> {
                 errorMsg = e.message ?: ""
             }
         }
+
+        fun<T> success(t: T) = BaseResponseBean<T>().apply {
+            data = t
+            status = 100
+        }
     }
 
     var status: Int = 0  // 100 success

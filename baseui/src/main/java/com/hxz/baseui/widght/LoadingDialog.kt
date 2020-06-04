@@ -25,18 +25,21 @@ class LoadingDialog(context: Context) : AppCompatDialog(context) {
     private lateinit var tvTitle : TextView
     private lateinit var mCreateView : LinearLayout
 
-    var mBgColor = Color.WHITE
-    var mBgRadius = 30f
-    var mBgDrawable : Drawable? = null
+    private var mBgColor = Color.WHITE
+    private var mBgRadius = 30f
+    private var mBgDrawable : Drawable? = null
 
-    var mBgWidth = 0
-    var mBgHeight = 0
+    private var mBgWidth = 0
+    private var mBgHeight = 0
+
+    init {
+        createView()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setDialogTheme()
-        val v = createView()
-        setContentView(v,getLayoutParams())
+        setContentView(mCreateView,getLayoutParams())
     }
 
     private fun createView() : View {
@@ -45,20 +48,26 @@ class LoadingDialog(context: Context) : AppCompatDialog(context) {
         mCreateView.setPadding(10,10,10,10)
         pb = ProgressBar(context)
         tvTitle = TextView(context)
+        tvTitle.setTextColor(Color.BLACK)
+        tvTitle.textSize = 12f
         mCreateView.addView(pb,
             LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT).apply {
-            gravity = Gravity.CENTER
+                topMargin = 20
+                gravity = Gravity.CENTER_HORIZONTAL
         })
         mCreateView.addView(tvTitle,
             LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT).apply {
-            topMargin = 10
+                topMargin = 10
+                bottomMargin = 10
+                gravity = Gravity.BOTTOM or Gravity.CENTER
         })
         return mCreateView
     }
 
     private fun getLayoutParams() : ViewGroup.LayoutParams {
+        val width = context.resources.displayMetrics.widthPixels * 0.5f
         val wp = ViewGroup.LayoutParams.WRAP_CONTENT
-        return ViewGroup.LayoutParams(wp,wp)
+        return ViewGroup.LayoutParams(width.toInt(),wp)
     }
 
     /** set dialog theme(设置对话框主题)  */
@@ -73,7 +82,7 @@ class LoadingDialog(context: Context) : AppCompatDialog(context) {
     }
 
     fun setProgressDrawable(drawable: Drawable) {
-        pb.progressDrawable = drawable
+        pb.indeterminateDrawable = drawable
     }
 
     fun setTextColor(color: Int) {

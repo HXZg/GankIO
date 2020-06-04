@@ -78,7 +78,7 @@ class HomeAdapter(context: Context) : BaseRvAdapter<ArticleListBean>(layout = R.
 
     private fun getImageView(context: Context) : ImageView {
         return ImageView(context).apply {
-            layoutParams = RecyclerView.LayoutParams(-1,200.dp2px(context)).apply {
+            layoutParams = RecyclerView.LayoutParams(-1,150.dp2px(context)).apply {
                 topMargin = 10.dp2px(context)
                 bottomMargin = 5.dp2px(context)
                 leftMargin = 10.dp2px(context)

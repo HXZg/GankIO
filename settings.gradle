@@ -1,5 +1,5 @@
 rootProject.name='GankIO'
-include ':app'
+include ':app', ':magicindicator'
 include ':baseui'
 include ':basehttp'
 include ':banner'

@@ -1,7 +1,9 @@
 package com.hxz.baseui.view
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import com.hxz.baseui.base.IBaseView
 
 /**
