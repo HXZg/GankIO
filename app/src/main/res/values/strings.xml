@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">GankIO</string>
+
+    <string name="home_text">首页</string>
+    <string name="gank_text">干货</string>
+    <string name="article_text">专题</string>
+
+    <string name="search_text">搜索</string>
+
+    <string name="hot_text">热门</string>
+    <string name="hot_views">浏览数</string>
+    <string name="hot_likes">点赞数</string>
+    <string name="hot_comments">评论数</string>
+    <string name="hot_article">文章</string>
+    <string name="hot_gank">干货</string>
+    <string name="hot_girl">妹纸</string>
+
 </resources>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/hot_category"
+        android:title="@string/hot_article"
+        app:showAsAction="always">
+
+        <menu>
+            <item android:id="@+id/hot_article"
+                android:title="@string/hot_article"
+                app:showAsAction="never"/>
+            <item android:id="@+id/hot_ganhuo"
+                android:title="@string/hot_gank"
+                app:showAsAction="never"/>
+            <item android:id="@+id/hot_girl"
+                android:title="@string/hot_girl"
+                app:showAsAction="never"/>
+        </menu>
+
+    </item>
+
+    <item android:id="@+id/hot_type"
+        android:title="@string/hot_views"
+        app:showAsAction="always">
+        <menu>
+            <item android:id="@+id/hot_views"
+                android:title="@string/hot_views"
+                app:showAsAction="never"/>
+            <item android:id="@+id/hot_likes"
+                android:title="@string/hot_likes"
+                app:showAsAction="never"/>
+            <item android:id="@+id/hot_comments"
+                android:title="@string/hot_comments"
+                app:showAsAction="never"/>
+        </menu>
+    </item>
+</menu>

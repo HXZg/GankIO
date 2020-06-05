@@ -27,8 +27,8 @@ class HomeFragment : BaseMFragment<HomeViewModel>() {
 
     override fun initData() {
         initRvHome()
-        viewModel.getHomeData()
-        getHomeData()
+        initObserve()
+        viewModel.setPage(1)
     }
 
     private fun initRvHome() {
@@ -38,7 +38,7 @@ class HomeFragment : BaseMFragment<HomeViewModel>() {
         homeAdapter.click = {type,msg ->
             when(type) {
                 HomeAdapter.ITEM_BANNER -> {}
-                HomeAdapter.ITEM_EMPTY -> getHomeData()
+                HomeAdapter.ITEM_EMPTY -> viewModel.setPage(1)
                 HomeAdapter.ITEM_GIRL -> ArticleListActivity.startArticleList(requireContext(),msg,msg)
                 HomeAdapter.ITEM_ARTICLE -> {}
             }
@@ -50,17 +50,9 @@ class HomeFragment : BaseMFragment<HomeViewModel>() {
         homeAdapter.hiddenChange(hidden)
     }
 
-    private fun getHomeData() {
-        viewModel.getHomeData().observe(this, Observer {
-            if (it.isSuccess() && it.data != null) {
-                homeAdapter.setHomeBean(it.data!!)
-            }
-        })
-    }
-
-    private fun loadData() {
-        viewModel.loadData(1).observe(this, Observer {
-
+    private fun initObserve() {
+        viewModel.homeDataLive.observe(this, Observer {
+            if (it.data != null) homeAdapter.setHomeBean(it.data!!)
         })
     }
 }

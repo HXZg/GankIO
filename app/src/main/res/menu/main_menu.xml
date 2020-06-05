@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/main_search"
+        android:title="@string/search_text"
+        android:icon="@android:drawable/ic_menu_search"
+        app:showAsAction="always"/>
+
+    <item android:id="@+id/main_hot"
+        android:title="@string/hot_text"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        app:showAsAction="always" />
+
+    <item android:id="@+id/main_set"
+        android:icon="@android:drawable/ic_menu_set_as"
+        app:showAsAction="never"
+        android:title="设置"/>
+</menu>

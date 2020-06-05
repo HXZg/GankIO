@@ -4,17 +4,19 @@ import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import com.hxz.baseui.util.LogUtils
 import com.hxz.baseui.view.BaseFragment
 import com.hxz.gankio.R
 import com.hxz.gankio.adapter.ListAdapter
+import com.hxz.gankio.viewmodel.ListFactory
 import com.hxz.gankio.viewmodel.ListViewModel
 import kotlinx.android.synthetic.main.fragment_list.*
 
 class ListFragment : BaseFragment() {
 
     companion object {
-        const val LIST_CATEGORY = ""
-        const val LIST_TYPE = ""
+        const val LIST_CATEGORY = "list_category"
+        const val LIST_TYPE = "list_type"
         fun newListFragment(category: String,type: String) : ListFragment {
             return ListFragment().apply {
                 arguments = Bundle().apply {
@@ -25,7 +27,7 @@ class ListFragment : BaseFragment() {
         }
     }
 
-    private val viewModel by lazy { viewModels<ListViewModel>().value }
+    private val viewModel by lazy { viewModels<ListViewModel>(factoryProducer = {ListFactory(category,type)}).value }
 
     private val category by lazy { arguments?.getString(LIST_CATEGORY) ?: "All" }
     private val type by lazy { arguments?.getString(LIST_TYPE) ?: "All" }
@@ -38,11 +40,13 @@ class ListFragment : BaseFragment() {
         rv_list.layoutManager = GridLayoutManager(context,1,GridLayoutManager.VERTICAL,false)
         rv_list.adapter = adapter
         loadData(1)
+
+        viewModel.listLive.observe(this, Observer {
+            adapter.setNewData(it.data ?: arrayListOf())
+        })
     }
 
     private fun loadData(page: Int) {
-        viewModel.getArticleList(category,type,page).observe(this, Observer {
-            adapter.setNewData(it.data ?: arrayListOf())
-        })
+        viewModel.setPage(page)
     }
 }

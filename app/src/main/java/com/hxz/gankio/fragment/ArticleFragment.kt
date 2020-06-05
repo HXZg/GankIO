@@ -23,13 +23,15 @@ class ArticleFragment : BaseFragment() {
         rv_article.layoutManager = GridLayoutManager(context,1,GridLayoutManager.VERTICAL,false)
         rv_article.adapter = articleAdapter
 
-        mViewModel.getArticleType().observe(this, Observer {
+        mViewModel.articleTypeLive.observe(this, Observer {
             articleAdapter.setNewData(it.data ?: arrayListOf())
         })
 
         articleAdapter.setClickInvoke { position, data ->
             ArticleListActivity.startArticleList(requireContext(),BaseRepository.CATEGORY_ARTICLE,data.type)
         }
+
+        mViewModel.refreshData()
     }
 }
 

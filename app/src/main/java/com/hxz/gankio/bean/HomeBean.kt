@@ -16,6 +16,8 @@ class HomeBean private constructor() {
                 if (banner.isSuccess()) bannerList.addAll(banner.data!!)
                 if (girl.isSuccess()) girlList.addAll(girl.data!!)
                 if (article.isSuccess()) {
+                    page = article.page
+                    page_count = article.page_count
                     articleList.addAll(article.data!!)
                 }
                 if (!banner.isSuccess() || !girl.isSuccess() || !article.isSuccess()) {
@@ -24,9 +26,19 @@ class HomeBean private constructor() {
                 }
             }
         }
+
+        fun getLoadHomeBean(article: BaseResponseBean<ArrayList<ArticleListBean>>) : HomeBean{
+            return HomeBean().apply {
+                page = article.page
+                page_count = article.page_count
+                if (article.isSuccess()) articleList.addAll(article.data!!)
+            }
+        }
     }
 
     var isSuccess = true
+    var page = 0
+    var page_count = 0
 
     val bannerList = arrayListOf<BannerBean>()
     val girlList = arrayListOf<CategoryTypeBean>()

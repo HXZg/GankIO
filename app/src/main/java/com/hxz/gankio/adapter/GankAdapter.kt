@@ -1,10 +1,13 @@
 package com.hxz.gankio.adapter
 
 import android.content.Context
+import android.graphics.Color
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.hxz.basehttp.bean.CategoryTypeBean
+import com.hxz.gankio.R
 import com.hxz.gankio.fragment.ListFragment
+import net.lucode.hackware.magicindicator.buildins.UIUtil
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView
@@ -26,10 +29,13 @@ class GankAdapter(private val category: String,fragment: Fragment,private val da
     }
 }
 
-class GankMagicAdapter(private val data: ArrayList<CategoryTypeBean> = arrayListOf()) : CommonNavigatorAdapter() {
+class GankMagicAdapter(private val data: ArrayList<CategoryTypeBean> = arrayListOf(),private val click: (position: Int) -> Unit) : CommonNavigatorAdapter() {
     override fun getTitleView(context: Context?, index: Int): IPagerTitleView {
         val view = ClipPagerTitleView(context)
-
+        view.text = data[index].title
+        view.textColor = context!!.resources.getColor(R.color.colorAccent)
+        view.clipColor = Color.WHITE
+        view.setOnClickListener{ click(index) }
         return view
     }
 
@@ -37,6 +43,14 @@ class GankMagicAdapter(private val data: ArrayList<CategoryTypeBean> = arrayList
 
     override fun getIndicator(context: Context?): IPagerIndicator {
         val indicator = LinePagerIndicator(context)
+        val navigatorHeight =
+            context!!.resources.getDimension(R.dimen.bar_height)
+        val borderWidth = UIUtil.dip2px(context, 1.0).toFloat()
+        val lineHeight = navigatorHeight - 2 * borderWidth
+        indicator.lineHeight = lineHeight
+        indicator.roundRadius = lineHeight / 2
+        indicator.yOffset = borderWidth
+        indicator.setColors(context.resources.getColor(R.color.colorAccent))
         return indicator
     }
 

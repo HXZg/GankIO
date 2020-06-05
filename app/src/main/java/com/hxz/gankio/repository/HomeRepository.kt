@@ -28,7 +28,8 @@ class HomeRepository : BaseRepository() {
 
     fun loadData(page: Int) = fire {
         coroutineScope {
-            getArticleList(page)
+            val list = getArticleList(page)
+            BaseResponseBean.success(HomeBean.getLoadHomeBean(list))
         }
     }
 }

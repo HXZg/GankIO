@@ -1,6 +1,5 @@
 package com.hxz.gankio.fragment
 
-import android.content.Context
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
@@ -13,16 +12,11 @@ import com.hxz.gankio.repository.BaseRepository
 import com.hxz.gankio.viewmodel.GankViewModel
 import kotlinx.android.synthetic.main.fragment_gank.*
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ClipPagerTitleView
 
 class GankFragment : BaseFragment() {
 
     private val vpAdapter by lazy { GankAdapter(BaseRepository.CATEGORY_GANK,this) }
-    private val magicAdapter by lazy { GankMagicAdapter() }
+    private val magicAdapter by lazy { GankMagicAdapter{vp2_gank.currentItem = it} }
 
     private val viewModel by lazy { viewModels<GankViewModel>().value }
 
@@ -30,14 +24,16 @@ class GankFragment : BaseFragment() {
 
     override fun initData() {
         vp2_gank.adapter = vpAdapter
+        vp2_gank.offscreenPageLimit = 2
         initMagicIndicator()
         initObserver()
+        viewModel.refreshData()
     }
 
     private fun initObserver() {
-        viewModel.getGankType().observe(this, Observer {
-            val page = viewModel.getGankPage().value
-            setPageData(it.data ?: arrayListOf(), page ?: 0)
+        viewModel.gankTypeLive.observe(this, Observer {
+            val page = viewModel.getGankPage()
+            setPageData(it.data ?: arrayListOf(), page)
         })
     }
 
@@ -50,6 +46,7 @@ class GankFragment : BaseFragment() {
     private fun initMagicIndicator() {
         mgi_gank.navigator = CommonNavigator(requireContext()).apply {
             adapter = magicAdapter
+            isAdjustMode = true
         }
         vp2_gank.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageScrollStateChanged(state: Int) {

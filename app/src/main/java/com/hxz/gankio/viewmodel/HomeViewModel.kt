@@ -2,6 +2,7 @@ package com.hxz.gankio.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.viewModelScope
 import com.hxz.basehttp.bean.ArticleListBean
 import com.hxz.basehttp.bean.BannerBean
@@ -17,9 +18,19 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel : BaseViewModel() {
 
+    private val pageLive = MutableLiveData<Int>()
+
     private val repository = HomeRepository()
 
-    fun getHomeData() = repository.getHomeData()
+    val homeDataLive = Transformations.switchMap(pageLive) { page ->
+        if (page == 1) getHomeData() else loadData(page)
+    }
 
-    fun loadData(page: Int) = repository.loadData(page)
+    private fun getHomeData() = repository.getHomeData()
+
+    private fun loadData(page: Int) = repository.loadData(page)
+
+    fun setPage(page: Int) {
+        pageLive.value = page
+    }
 }

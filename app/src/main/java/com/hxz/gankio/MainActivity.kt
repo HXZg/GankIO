@@ -1,11 +1,15 @@
 package com.hxz.gankio
 
+import android.content.Intent
+import android.view.Menu
+import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.core.view.forEachIndexed
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
 import com.hxz.baseui.view.BaseActivity
+import com.hxz.gankio.activity.HotActivity
 import com.hxz.gankio.fragment.ArticleFragment
 import com.hxz.gankio.fragment.GankFragment
 import com.hxz.gankio.fragment.HomeFragment
@@ -17,10 +21,12 @@ class MainActivity : BaseActivity() {
     private val mViewModel = viewModels<MainViewModel>()
 
     private val fragmentList = Array<Fragment?>(3){null}
+    private val titles = arrayOf(R.string.home_text,R.string.gank_text,R.string.article_text)
 
     override fun bindLayout(): Int = R.layout.activity_main
 
     override fun initData() {
+        setSupportActionBar(tool_bar)
         rg_main.forEachIndexed { index, view ->
             view.id = index
         }
@@ -33,7 +39,22 @@ class MainActivity : BaseActivity() {
         rg_main.check(0)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu,menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.main_search -> {}
+            R.id.main_hot -> startActivity(Intent(this,HotActivity::class.java))
+            R.id.main_set -> {}
+        }
+        return true
+    }
+
     private fun switchFragment(index: Int) {
+        tool_bar.setSubtitle(titles[index])
         supportFragmentManager.commit {
             fragmentList.forEach { if (it != null) hide(it) }
             var f = fragmentList[index]

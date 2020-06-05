@@ -112,9 +112,14 @@ class HomeAdapter(context: Context) : BaseRvAdapter<ArticleListBean>(layout = R.
 
     fun setHomeBean(bean: HomeBean) {
 //        if (bean.isSuccess)
-        if (bean.bannerList.isNotEmpty()) bannerView.refreshData(bean.bannerList) else removeHeaderView(bannerView)
-        if (bean.girlList.isNotEmpty()) imageView.loadUrl(bean.girlList[0].coverImageUrl) else removeHeaderView(imageView)
-        setNewData(bean.articleList)
+        if (bean.page <= 1) {
+            if (bean.bannerList.isNotEmpty()) bannerView.refreshData(bean.bannerList) else removeHeaderView(bannerView)
+            if (bean.girlList.isNotEmpty()) imageView.loadUrl(bean.girlList[0].coverImageUrl) else removeHeaderView(imageView)
+            setNewData(bean.articleList)
+        } else {
+            loadDataList(bean.articleList)
+        }
+
     }
 
     fun hiddenChange(hidden: Boolean) {
