@@ -10,6 +10,7 @@ import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
 import com.hxz.baseui.view.BaseActivity
 import com.hxz.gankio.activity.HotActivity
+import com.hxz.gankio.activity.SearchActivity
 import com.hxz.gankio.fragment.ArticleFragment
 import com.hxz.gankio.fragment.GankFragment
 import com.hxz.gankio.fragment.HomeFragment
@@ -46,7 +47,7 @@ class MainActivity : BaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
-            R.id.main_search -> {}
+            R.id.main_search -> startActivity(Intent(this,SearchActivity::class.java))
             R.id.main_hot -> startActivity(Intent(this,HotActivity::class.java))
             R.id.main_set -> {}
         }

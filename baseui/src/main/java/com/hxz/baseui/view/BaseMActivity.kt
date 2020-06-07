@@ -45,6 +45,10 @@ abstract class BaseMActivity<VM: BaseViewModel> : BaseActivity(),IBaseVM<VM> {
         finish()
     }
 
+    override fun LoadingDialog.initLoading() {
+
+    }
+
     override fun other(any: Any?) {
 
     }

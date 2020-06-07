@@ -76,7 +76,6 @@ class HotActivity : BaseActivity() {
             R.id.hot_likes -> refreshList(t = "likes")
             R.id.hot_comments -> refreshList(t = "comments")
         }
-        invalidateOptionsMenu()
         return true
     }
 
@@ -96,6 +95,7 @@ class HotActivity : BaseActivity() {
             LogUtils.i(category,type,c,t)
             viewModel.setHotType(t)
             viewModel.setHotCategory(c)
+            invalidateOptionsMenu()
         }
     }
 

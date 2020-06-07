@@ -1,9 +1,6 @@
 package com.hxz.basehttp.api
 
-import com.hxz.basehttp.bean.ArticleListBean
-import com.hxz.basehttp.bean.BannerBean
-import com.hxz.basehttp.bean.BaseResponseBean
-import com.hxz.basehttp.bean.CategoryTypeBean
+import com.hxz.basehttp.bean.*
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -58,12 +55,18 @@ interface GankApi {
     count: [10, 50]
     page: >=1
      */
-    @GET("search/{search}/article/{article}/type/{type}/page/{page}/count/{count}")
+    @GET("search/{search}/category/{article}/type/{type}/page/{page}/count/{count}")
     suspend fun searchList(@Path("search") search: String,
         @Path("article") category: String,@Path("type") type: String,
         @Path("page") page: Int,@Path("count") count: Int) : BaseResponseBean<ArrayList<ArticleListBean>>
 
 
     // 文章评论  文章详情  随机
+
+    @GET("post/{post_id}")
+    suspend fun articleDetail(id: String) : BaseResponseBean<ArticleDetailBean>
+
+    @GET("post/comments/{post_id}")
+    suspend fun articleComments(id: String) : BaseResponseBean<ArrayList<String>>
 
 }

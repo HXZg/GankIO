@@ -58,6 +58,7 @@ class HomeAdapter(context: Context) : BaseRvAdapter<ArticleListBean>(layout = R.
             override fun createView(parent: ViewGroup, viewType: Int): View {
                 return ImageView(parent.context).apply {
                     layoutParams = ViewGroup.LayoutParams(-1,-1)
+                    scaleType = ImageView.ScaleType.CENTER_CROP
                 }
             }
 
@@ -92,7 +93,7 @@ class HomeAdapter(context: Context) : BaseRvAdapter<ArticleListBean>(layout = R.
                     click?.invoke(ITEM_GIRL,"Girl")
                 }
             }
-//            scaleType = ImageView.ScaleType.CENTER_CROP
+            scaleType = ImageView.ScaleType.CENTER_CROP
         }
     }
 

@@ -1,10 +1,6 @@
 package com.hxz.gankio.viewmodel
 
 import androidx.lifecycle.*
-import com.hxz.basehttp.bean.ArticleListBean
-import com.hxz.basehttp.bean.BaseResponseBean
-import com.hxz.gankio.bean.HotTypeBean
-import com.hxz.gankio.repository.BaseRepository
 import com.hxz.gankio.repository.HotRepository
 
 /**
