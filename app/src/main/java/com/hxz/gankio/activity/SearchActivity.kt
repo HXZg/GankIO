@@ -1,22 +1,18 @@
 package com.hxz.gankio.activity
 
-import android.annotation.SuppressLint
-import android.os.Bundle
-import android.text.style.SuggestionSpan
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hxz.baseui.util.LogUtils
-import com.hxz.baseui.view.BaseActivity
 import com.hxz.baseui.view.BaseMActivity
 import com.hxz.gankio.R
-import com.hxz.gankio.adapter.ListAdapter
+import com.hxz.gankio.adapter.BaseGankAdapter
+import com.hxz.gankio.adapter.setGankManager
 import com.hxz.gankio.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.activity_search.*
 
@@ -29,11 +25,13 @@ import kotlinx.android.synthetic.main.activity_search.*
  */
 class SearchActivity : BaseMActivity<SearchViewModel>() {
 
-    private val listAdapter by lazy { ListAdapter() }
+    private val listAdapter by lazy { rv_search.adapter as BaseGankAdapter }
 
     private var searchText = ""
 
     private var popupMenu : PopupMenu? = null
+
+    private var currentPage = 1
 
     override fun createVM(): SearchViewModel {
         return viewModels<SearchViewModel>().value
@@ -43,9 +41,13 @@ class SearchActivity : BaseMActivity<SearchViewModel>() {
 
     override fun initData() {
         initToolBar()
-        rv_search.layoutManager = LinearLayoutManager(this)
-        rv_search.adapter = listAdapter
+        rv_search.setGankManager()
+
+        listAdapter.setClickInvoke { position, data ->
+            DetailActivity.startDetail(this,data._id)
+        }
         initObserve()
+        initRefresh()
         viewModel.getCategoryType()
     }
 
@@ -53,6 +55,11 @@ class SearchActivity : BaseMActivity<SearchViewModel>() {
         setSupportActionBar(tool_bar)
         tool_bar.setNavigationIcon(R.drawable.ic_back_wh)
         tool_bar.setNavigationOnClickListener { finish() }
+    }
+
+    private fun initRefresh() {
+        smart_search.setEnableRefresh(false)
+        smart_search.setOnLoadMoreListener { viewModel.search(searchText,page = ++currentPage) }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -93,7 +100,15 @@ class SearchActivity : BaseMActivity<SearchViewModel>() {
 
     private fun initObserve() {
         viewModel.listLive.observe(this, Observer {
-            listAdapter.setNewData(it.data ?: arrayListOf())
+            currentPage = it.page
+            if (it.page == 1) {
+                smart_search.finishRefresh()
+                listAdapter.setNewData(it.data ?: arrayListOf())
+            } else {
+                smart_search.finishLoadMore()
+                listAdapter.loadDataList(it.data ?: arrayListOf())
+            }
+            if (it.page == it.page_count) smart_search.setEnableLoadMore(false)
             dismissDialog()
         })
         viewModel.typeLiveData.observe(this, Observer {

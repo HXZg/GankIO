@@ -13,3 +13,6 @@
 /captures
 .externalNativeBuild
 .cxx
+/magicindicator/build
+/.idea/
+/magicindicator/

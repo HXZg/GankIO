@@ -1,7 +1,7 @@
 package com.hxz.gankio.repository
 
-import com.hxz.basehttp.bean.ArticleDetailBean
 import com.hxz.basehttp.bean.BaseResponseBean
+import com.hxz.baseui.util.LogUtils
 import com.hxz.gankio.bean.ArticleDetailComments
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope

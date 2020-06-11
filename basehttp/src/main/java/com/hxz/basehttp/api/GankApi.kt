@@ -64,9 +64,9 @@ interface GankApi {
     // 文章评论  文章详情  随机
 
     @GET("post/{post_id}")
-    suspend fun articleDetail(id: String) : BaseResponseBean<ArticleDetailBean>
+    suspend fun articleDetail(@Path("post_id") id: String) : BaseResponseBean<ArticleDetailBean>
 
     @GET("post/comments/{post_id}")
-    suspend fun articleComments(id: String) : BaseResponseBean<ArrayList<String>>
+    suspend fun articleComments(@Path("post_id") id: String) : BaseResponseBean<ArrayList<String>>
 
 }

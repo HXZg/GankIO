@@ -51,7 +51,7 @@ abstract class BaseRvAdapter<DATA>(private val data: MutableList<DATA> = arrayLi
         }
     }
 
-    private fun isHead() : Int {
+    fun isHead() : Int {
         return if (headViews.isNotEmpty()) 1 else 0
     }
 
@@ -60,14 +60,14 @@ abstract class BaseRvAdapter<DATA>(private val data: MutableList<DATA> = arrayLi
     private fun createHolder(parent: ViewGroup,viewType: Int) : BaseRvHolder {
         val v = when(viewType) {
             NORMAL -> if (layout != 0) LayoutInflater.from(parent.context).inflate(layout,parent,false) else createNormalView(parent, viewType)
-            HEAD_VIEW -> getHeadAndFootView(parent.context)
+            HEAD_VIEW, FOOT_VIEW -> getHeadAndFootView(parent.context)
             EMPTY_VIEW -> emptyView!!
-            else -> getHeadAndFootView(parent.context)
+            else -> createNormalView(parent, viewType)
         }
         return BaseRvHolder(v)
     }
 
-    protected fun createNormalView(parent: ViewGroup,viewType: Int) : View {
+    protected open fun createNormalView(parent: ViewGroup,viewType: Int) : View {
         return View(parent.context)
     }
 
@@ -82,6 +82,8 @@ abstract class BaseRvAdapter<DATA>(private val data: MutableList<DATA> = arrayLi
         data.addAll(list)
         notifyItemRangeInserted(positionStart,list.size)
     }
+
+    fun getData(position: Int) : DATA = data[position]
 
     fun addHeaderView(view: View) {
         headViews.add(view)
@@ -123,7 +125,7 @@ abstract class BaseRvAdapter<DATA>(private val data: MutableList<DATA> = arrayLi
     /**
      * 重写此方法 实现多type position 实际去掉头部开始
      */
-    protected fun createItemType(position: Int) : Int {
+    protected open fun createItemType(position: Int) : Int {
         return if (data.isEmpty() && emptyView != null) EMPTY_VIEW else NORMAL
     }
 

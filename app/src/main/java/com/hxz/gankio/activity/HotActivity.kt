@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.hxz.baseui.util.LogUtils
 import com.hxz.baseui.view.BaseActivity
 import com.hxz.gankio.R
-import com.hxz.gankio.adapter.ListAdapter
+import com.hxz.gankio.adapter.BaseGankAdapter
+import com.hxz.gankio.adapter.setGankManager
 import com.hxz.gankio.repository.BaseRepository
 import com.hxz.gankio.viewmodel.HotViewModel
 import kotlinx.android.synthetic.main.activity_hot.*
@@ -23,7 +24,7 @@ import kotlinx.android.synthetic.main.activity_hot.*
 class HotActivity : BaseActivity() {
 
     private val viewModel by lazy { viewModels<HotViewModel>().value }
-    private val adapter by lazy { ListAdapter() }
+    private val adapter by lazy { rv_hot_list.adapter as BaseGankAdapter }
 
     override fun bindLayout(): Int = R.layout.activity_hot
 
@@ -31,7 +32,6 @@ class HotActivity : BaseActivity() {
         initToolBar()
         initRv()
         initObserve()
-        refreshList()
     }
 
     private fun initToolBar() {
@@ -42,8 +42,15 @@ class HotActivity : BaseActivity() {
     }
 
     private fun initRv() {
-        rv_hot_list.layoutManager = GridLayoutManager(this,1,GridLayoutManager.VERTICAL,false)
-        rv_hot_list.adapter = adapter
+        rv_hot_list.setGankManager()
+
+        adapter.setClickInvoke { position, data ->
+            DetailActivity.startDetail(this,data._id)
+        }
+
+//        smart_hot.setOnRefreshListener { refreshList() }
+//        smart_hot.autoRefresh()
+        refreshList()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -81,6 +88,7 @@ class HotActivity : BaseActivity() {
 
     private fun initObserve() {
         viewModel.hotListLive.observe(this, Observer {
+            smart_hot.finishRefresh()
             adapter.setNewData(it.data ?: arrayListOf())
         })
         /*viewModel.titleLive.observe(this, Observer {

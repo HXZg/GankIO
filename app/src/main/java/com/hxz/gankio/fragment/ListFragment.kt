@@ -4,10 +4,11 @@ import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import com.hxz.baseui.util.LogUtils
 import com.hxz.baseui.view.BaseFragment
 import com.hxz.gankio.R
-import com.hxz.gankio.adapter.ListAdapter
+import com.hxz.gankio.activity.DetailActivity
+import com.hxz.gankio.adapter.BaseGankAdapter
+import com.hxz.gankio.adapter.setGankManager
 import com.hxz.gankio.viewmodel.ListFactory
 import com.hxz.gankio.viewmodel.ListViewModel
 import kotlinx.android.synthetic.main.fragment_list.*
@@ -27,23 +28,44 @@ class ListFragment : BaseFragment() {
         }
     }
 
+    private var currentPage = 1
+
     private val viewModel by lazy { viewModels<ListViewModel>(factoryProducer = {ListFactory(category,type)}).value }
 
     private val category by lazy { arguments?.getString(LIST_CATEGORY) ?: "All" }
     private val type by lazy { arguments?.getString(LIST_TYPE) ?: "All" }
 
-    private val adapter by lazy { ListAdapter() }
+    private val adapter by lazy { rv_list.adapter as BaseGankAdapter }
 
     override fun bindLayout(): Int = R.layout.fragment_list
 
     override fun initData() {
-        rv_list.layoutManager = GridLayoutManager(context,1,GridLayoutManager.VERTICAL,false)
-        rv_list.adapter = adapter
-        loadData(1)
+        rv_list.setGankManager()
+        initRefresh()
+
+        adapter.setClickInvoke { position, data ->
+            DetailActivity.startDetail(requireContext(),data._id)
+        }
 
         viewModel.listLive.observe(this, Observer {
-            adapter.setNewData(it.data ?: arrayListOf())
+            currentPage = it.page
+            if (it.page == 1) {
+                smart_list.finishRefresh()
+                adapter.setNewData(it.data ?: arrayListOf())
+            }else {
+                smart_list.finishLoadMore()
+                adapter.loadDataList(it.data ?: arrayListOf())
+            }
+            if (it.page == it.page_count) {
+                smart_list.setEnableLoadMore(false)
+            }
         })
+    }
+
+    private fun initRefresh() {
+        smart_list.setOnRefreshListener { loadData(1) }
+        smart_list.setOnLoadMoreListener { loadData(++currentPage) }
+        smart_list.autoRefresh()
     }
 
     private fun loadData(page: Int) {

@@ -3,11 +3,13 @@ package com.hxz.gankio.adapter
 import android.content.Context
 import android.graphics.Color
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.hxz.banner.Banner
 import com.hxz.banner.adapter.BaseBannerAdapter
 import com.hxz.banner.transform.GalleryPageTransform
@@ -20,7 +22,7 @@ import com.hxz.gankio.utils.loadUrl
 
 typealias HomeClickListener = (type: Int,msg: String) -> Unit
 
-class HomeAdapter(context: Context) : BaseRvAdapter<ArticleListBean>(layout = R.layout.item_home) {
+class HomeAdapter(context: Context) : BaseGankAdapter() {
 
     companion object {
         const val ITEM_BANNER = 0
@@ -40,16 +42,6 @@ class HomeAdapter(context: Context) : BaseRvAdapter<ArticleListBean>(layout = R.
         emptyView = getEmptyView(context)
         setClickInvoke { position, data ->
             click?.invoke(ITEM_ARTICLE,data._id)
-        }
-    }
-
-    override fun convertViewHolder(holder: BaseRvHolder, data: ArticleListBean) {
-        holder.apply {
-            if (data.images.isNotEmpty()) holder.findView<ImageView>(R.id.iv_img).loadUrl(data.images[0])
-            setText(R.id.tv_title,t = data.title)
-            setText(R.id.tv_desc,t = data.desc)
-            setText(R.id.tv_time,t = data.publishedAt)
-            setText(R.id.tv_auto_type,t = "${data.type}  ${data.author}")
         }
     }
 

@@ -1,7 +1,9 @@
 package com.hxz.baseui.view
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.webkit.WebView
 
 /**
  * @title com.hxz.baseui.view  GankIO
@@ -14,12 +16,17 @@ class WebViewActivity : BaseActivity() {
 
     companion object {
         fun startWebView(context: Context,url: String) {
-
+            context.startActivity(Intent(context,WebViewActivity::class.java).apply {
+                putExtra("web_url",url)
+            })
         }
     }
 
-    override fun bindLayout(): Int {
+    private val wv by lazy { WebView(this) }
+    private val url by lazy { intent?.getStringExtra("web_url") ?: "" }
 
+    override fun bindLayout(): Int {
+        setContentView(wv)
         return 0
     }
 
@@ -28,6 +35,7 @@ class WebViewActivity : BaseActivity() {
     }
 
     override fun initData() {
+        wv.loadUrl(url)
 
     }
 }

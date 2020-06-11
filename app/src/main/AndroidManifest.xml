@@ -27,6 +27,7 @@
         <activity android:name=".activity.HotActivity"/>
         <activity android:name=".activity.SearchActivity"/>
         <activity android:name=".activity.DetailActivity"/>
+        <activity android:name="com.hxz.baseui.view.WebViewActivity"/>
     </application>
 
 </manifest>
