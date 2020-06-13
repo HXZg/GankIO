@@ -4,9 +4,11 @@ import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import com.hxz.basehttp.bean.ArticleListBean
 import com.hxz.baseui.view.BaseFragment
 import com.hxz.gankio.R
 import com.hxz.gankio.activity.DetailActivity
+import com.hxz.gankio.activity.GirlDetailActivity
 import com.hxz.gankio.adapter.BaseGankAdapter
 import com.hxz.gankio.adapter.setGankManager
 import com.hxz.gankio.viewmodel.ListFactory
@@ -44,7 +46,13 @@ class ListFragment : BaseFragment() {
         initRefresh()
 
         adapter.setClickInvoke { position, data ->
-            DetailActivity.startDetail(requireContext(),data._id)
+            if (adapter.getItemViewType(position) != 4) DetailActivity.startDetail(requireContext(),data._id)
+            else {
+                val list = arrayListOf<ArticleListBean>().apply {
+                    addAll(adapter.data)
+                }
+                GirlDetailActivity.startGirlDetail(requireContext(),list,currentPage,position)
+            }
         }
 
         viewModel.listLive.observe(this, Observer {

@@ -8,7 +8,7 @@ import android.widget.LinearLayout
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class BaseRvAdapter<DATA>(private val data: MutableList<DATA> = arrayListOf(),private @LayoutRes val layout: Int = 0) : RecyclerView.Adapter<BaseRvHolder>() {
+abstract class BaseRvAdapter<DATA>(val data: MutableList<DATA> = arrayListOf(),private @LayoutRes val layout: Int = 0) : RecyclerView.Adapter<BaseRvHolder>() {
 
     companion object {
         private const val HEAD_VIEW = 0

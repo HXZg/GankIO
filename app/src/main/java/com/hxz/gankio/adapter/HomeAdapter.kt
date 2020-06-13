@@ -16,6 +16,7 @@ import com.hxz.banner.transform.GalleryPageTransform
 import com.hxz.basehttp.bean.ArticleListBean
 import com.hxz.basehttp.bean.BannerBean
 import com.hxz.gankio.R
+import com.hxz.gankio.activity.GirlDetailActivity
 import com.hxz.gankio.bean.HomeBean
 import com.hxz.gankio.utils.dp2px
 import com.hxz.gankio.utils.loadUrl
@@ -41,7 +42,8 @@ class HomeAdapter(context: Context) : BaseGankAdapter() {
         addHeaderView(imageView)
         emptyView = getEmptyView(context)
         setClickInvoke { position, data ->
-            click?.invoke(ITEM_ARTICLE,data._id)
+            if (getItemViewType(position) != 4) click?.invoke(ITEM_ARTICLE,data._id)
+            else GirlDetailActivity.startGirlDetail(context, arrayListOf(data),-1,0)
         }
     }
 

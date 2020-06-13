@@ -1,5 +1,7 @@
 package com.hxz.basehttp.bean
 
+import android.os.Parcel
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -17,7 +19,48 @@ data class CategoryTypeBean(val _id: String,val coverImageUrl: String,val desc: 
 // 文章列表
 data class ArticleListBean(val _id: String,val author: String,val category: String,val createdAt: String,val desc: String,
                             val images: List<String>,val likeCounts: Int,val publishedAt: String,val stars: Int,val title: String,
-                            val type: String,val url: String,val views: Int)
+                            val type: String,val url: String,val views: Int) : Parcelable {
+    constructor(parcel: Parcel) : this(
+        parcel.readString() ?: "",
+        "",
+        "",
+        "",
+        parcel.readString() ?: "",
+        parcel.createStringArrayList() ?: arrayListOf(),
+        0,
+        "",
+        0,
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        0
+    ) {
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(_id)
+        parcel.writeString(desc)
+        parcel.writeStringList(images)
+        parcel.writeString(title)
+        parcel.writeString(type)
+        parcel.writeString(url)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<ArticleListBean> {
+        override fun createFromParcel(parcel: Parcel): ArticleListBean {
+            return ArticleListBean(parcel)
+        }
+
+        override fun newArray(size: Int): Array<ArticleListBean?> {
+            return arrayOfNulls(size)
+        }
+    }
+
+}
 
 data class ArticleDetailBean(
     @SerializedName("_id") val Id: String,

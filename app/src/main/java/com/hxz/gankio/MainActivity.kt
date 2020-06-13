@@ -1,6 +1,7 @@
 package com.hxz.gankio
 
 import android.content.Intent
+import android.os.Environment
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
@@ -8,6 +9,7 @@ import androidx.core.view.forEachIndexed
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
+import com.hxz.baseui.util.LogUtils
 import com.hxz.baseui.view.BaseActivity
 import com.hxz.gankio.activity.HotActivity
 import com.hxz.gankio.activity.SearchActivity
@@ -16,6 +18,7 @@ import com.hxz.gankio.fragment.GankFragment
 import com.hxz.gankio.fragment.HomeFragment
 import com.hxz.gankio.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import java.io.File
 
 class MainActivity : BaseActivity() {
 
