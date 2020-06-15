@@ -39,7 +39,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white_color">
+            android:background="@color/bg_color">
 
             <TextView
                 android:id="@+id/tv_detail_type"
@@ -63,7 +63,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_detail_type"
                 android:layout_marginTop="3dp"
                 android:textSize="14sp"
-                android:textColor="@color/black_color"/>
+                android:textColor="@color/title_color"/>
 
             <TextView
                 android:id="@+id/tv_detail_author"
@@ -73,7 +73,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_detail_title"
                 android:layout_marginTop="3dp"
                 android:textSize="10sp"
-                android:textColor="@color/black_color"/>
+                android:textColor="@color/title_color"/>
 
             <TextView
                 android:id="@+id/tv_detail_views"
@@ -83,7 +83,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:layout_marginRight="20dp"
                 android:textSize="10sp"
-                android:textColor="@color/black_color"
+                android:textColor="@color/title_color"
                 />
 
             <View
@@ -104,7 +104,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_detail_views"
                 android:layout_marginTop="10dp"
                 android:textSize="12sp"
-                android:textColor="@color/black_color"
+                android:textColor="@color/sub_title_color"
                 />
 
             <View
@@ -123,6 +123,7 @@
                 app:layout_constraintLeft_toLeftOf="@id/tv_detail_desc"
                 app:layout_constraintRight_toRightOf="@id/tv_detail_desc"
                 app:layout_constraintTop_toBottomOf="@id/tv_detail_desc"
+                android:background="@color/bottom_bg_color"
                 android:layout_marginTop="10dp"/>
             <View
                 android:layout_width="0dp"
@@ -141,7 +142,7 @@
                 app:layout_constraintTop_toBottomOf="@id/wv_content"
                 android:layout_marginTop="10dp"
                 android:textSize="12sp"
-                android:textColor="@color/colorPrimary"/>
+                android:textColor="@color/main_txt_primary"/>
 
             <TextView
                 android:id="@+id/tv_detail_comments"
@@ -152,7 +153,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_detail_address"
                 android:layout_marginTop="10dp"
                 android:textSize="12sp"
-                android:textColor="@color/black_color"/>
+                android:textColor="@color/title_color"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_detail_comments"

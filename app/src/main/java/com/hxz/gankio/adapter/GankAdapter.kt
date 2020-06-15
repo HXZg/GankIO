@@ -7,6 +7,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.hxz.basehttp.bean.CategoryTypeBean
 import com.hxz.gankio.R
 import com.hxz.gankio.fragment.ListFragment
+import com.hxz.gankio.utils.isDarkModel
 import net.lucode.hackware.magicindicator.buildins.UIUtil
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
@@ -33,7 +34,7 @@ class GankMagicAdapter(private val data: ArrayList<CategoryTypeBean> = arrayList
     override fun getTitleView(context: Context?, index: Int): IPagerTitleView {
         val view = ClipPagerTitleView(context)
         view.text = data[index].title
-        view.textColor = context!!.resources.getColor(R.color.colorAccent)
+        view.textColor = context!!.resources.getColor(if (context.isDarkModel()) R.color.sub_title_color else R.color.colorAccent)
         view.clipColor = Color.WHITE
         view.setOnClickListener{ click(index) }
         return view
@@ -50,7 +51,8 @@ class GankMagicAdapter(private val data: ArrayList<CategoryTypeBean> = arrayList
         indicator.lineHeight = lineHeight
         indicator.roundRadius = lineHeight / 2
         indicator.yOffset = borderWidth
-        indicator.setColors(context.resources.getColor(R.color.colorAccent))
+        val color = if (context.isDarkModel()) Color.BLACK else context.resources.getColor(R.color.colorAccent)
+        indicator.setColors(color)
         return indicator
     }
 

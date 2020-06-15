@@ -10,9 +10,11 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hxz.baseui.util.LogUtils
 import com.hxz.baseui.view.BaseMActivity
+import com.hxz.baseui.widght.LoadingDialog
 import com.hxz.gankio.R
 import com.hxz.gankio.adapter.BaseGankAdapter
 import com.hxz.gankio.adapter.setGankManager
+import com.hxz.gankio.utils.setDarkColor
 import com.hxz.gankio.viewmodel.SearchViewModel
 import kotlinx.android.synthetic.main.activity_search.*
 
@@ -112,7 +114,7 @@ class SearchActivity : BaseMActivity<SearchViewModel>() {
             dismissDialog()
         })
         viewModel.typeLiveData.observe(this, Observer {
-            popupMenu = PopupMenu(this, tool_bar,Gravity.BOTTOM or Gravity.RIGHT)
+            popupMenu = PopupMenu(this, tool_bar,Gravity.BOTTOM or Gravity.RIGHT,android.R.attr.popupMenuStyle,R.style.popup_theme)
             popupMenu?.menu?.add(Menu.NONE,Menu.FIRST,0,"All")
             it.data?.forEachIndexed { index, categoryTypeBean ->
                 popupMenu?.menu?.add(Menu.NONE,Menu.FIRST + index + 1,index + 1,categoryTypeBean.type)
@@ -123,5 +125,9 @@ class SearchActivity : BaseMActivity<SearchViewModel>() {
                 true
             }
         })
+    }
+
+    override fun LoadingDialog.initLoading() {
+        setDarkColor()
     }
 }

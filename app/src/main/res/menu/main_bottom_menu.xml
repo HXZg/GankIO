@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/main_home"
+        android:icon="@drawable/family_off"
+        android:title="@string/home_text"/>
+    <item android:id="@+id/main_gank"
+        android:icon="@drawable/mall_off"
+        android:title="@string/gank_text"/>
+    <item android:id="@+id/main_article"
+        android:icon="@drawable/scene_off"
+        android:title="@string/article_text" />
+</menu>

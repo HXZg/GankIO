@@ -7,11 +7,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.hxz.baseui.view.BaseMFragment
 import com.hxz.baseui.view.WebViewActivity
+import com.hxz.baseui.widght.LoadingDialog
 import com.hxz.gankio.R
 import com.hxz.gankio.activity.ArticleListActivity
 import com.hxz.gankio.activity.DetailActivity
 import com.hxz.gankio.adapter.HomeAdapter
 import com.hxz.gankio.adapter.setGankManager
+import com.hxz.gankio.utils.setDarkColor
 import com.hxz.gankio.viewmodel.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -72,5 +74,9 @@ class HomeFragment : BaseMFragment<HomeViewModel>() {
             }
             if (it.data != null) homeAdapter.setHomeBean(it.data!!)
         })
+    }
+
+    override fun LoadingDialog.initLoading() {
+        setDarkColor()
     }
 }

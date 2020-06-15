@@ -15,4 +15,8 @@
     <string name="hot_gank">干货</string>
     <string name="hot_girl">妹纸</string>
 
+    <string name="dark_mode">深色模式</string>
+    <string name="dark_no">浅色模式</string>
+    <string name="dark_follow_system">随系统</string>
+    <string name="cache_clear">清楚缓存</string>
 </resources>

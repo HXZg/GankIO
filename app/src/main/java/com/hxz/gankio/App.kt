@@ -1,7 +1,9 @@
 package com.hxz.gankio
 
+import androidx.appcompat.app.AppCompatDelegate
 import com.hxz.baseui.BaseApp
 import com.hxz.baseui.util.LogUtils
+import com.hxz.gankio.utils.SPUtils
 
 /**
  * @title com.hxz.gankio  GankIO
@@ -15,6 +17,11 @@ class App : BaseApp() {
 
     override fun onCreate() {
         super.onCreate()
+        setAppMode()
 //        LogUtils.getConfig().setLog2FileSwitch(true).isLogSwitch = true
+    }
+
+    private fun setAppMode() {
+        AppCompatDelegate.setDefaultNightMode(SPUtils.getDarkMode(this))
     }
 }

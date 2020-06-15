@@ -3,7 +3,9 @@ package com.hxz.baseui.view
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.webkit.WebResourceRequest
 import android.webkit.WebView
+import android.webkit.WebViewClient
 
 /**
  * @title com.hxz.baseui.view  GankIO
@@ -35,6 +37,14 @@ class WebViewActivity : BaseActivity() {
     }
 
     override fun initData() {
+        wv.webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(
+                view: WebView?,
+                request: WebResourceRequest?
+            ): Boolean {
+                return false
+            }
+        }
         wv.loadUrl(url)
 
     }

@@ -10,11 +10,13 @@ import com.hxz.basehttp.bean.Comments
 import com.hxz.baseui.util.LogUtils
 import com.hxz.baseui.view.BaseMActivity
 import com.hxz.baseui.view.WebViewActivity
+import com.hxz.baseui.widght.LoadingDialog
 import com.hxz.gankio.R
 import com.hxz.gankio.adapter.BaseRvAdapter
 import com.hxz.gankio.adapter.BaseRvHolder
 import com.hxz.gankio.bean.ArticleDetailComments
 import com.hxz.gankio.utils.loadUrl
+import com.hxz.gankio.utils.setDarkColor
 import com.hxz.gankio.viewmodel.DetailViewModel
 import kotlinx.android.synthetic.main.activity_detail.*
 
@@ -79,9 +81,14 @@ class DetailActivity : BaseMActivity<DetailViewModel>() {
 //        val content = if (bean.detail?.content.isNullOrEmpty()) bean.detail?.markdown else bean.detail?.content
         val content = bean.detail?.content
         wv_content.loadData(content, "text/html", "UTF-8")
+        wv_content.setBackgroundColor(resources.getColor(R.color.bg_color))
 
         tv_detail_address.setOnClickListener {
             WebViewActivity.startWebView(this,bean.detail?.url ?: "")
         }
+    }
+
+    override fun LoadingDialog.initLoading() {
+        setDarkColor()
     }
 }

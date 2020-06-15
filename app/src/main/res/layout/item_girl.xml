@@ -21,14 +21,15 @@
             android:scaleType="centerCrop"/>
         <TextView
             android:id="@+id/tv_girl_desc"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:layout_marginBottom="10dp"
-            android:textColor="@color/black_color"
+            android:textColor="@color/bottom_bg_color"
             android:textSize="12sp"
             android:layout_gravity="bottom"
-            android:background="#44ffffff"/>
+            android:background="@color/mark_color"/>
     </FrameLayout>
 
 

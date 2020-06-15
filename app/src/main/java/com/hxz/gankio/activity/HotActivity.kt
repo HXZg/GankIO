@@ -45,7 +45,11 @@ class HotActivity : BaseActivity() {
         rv_hot_list.setGankManager()
 
         adapter.setClickInvoke { position, data ->
-            DetailActivity.startDetail(this,data._id)
+            if (adapter.getItemViewType(position) != 4)
+                DetailActivity.startDetail(this,data._id)
+            else {
+                GirlDetailActivity.startGirlDetail(this,ArrayList(adapter.data),-1,position)
+            }
         }
 
 //        smart_hot.setOnRefreshListener { refreshList() }

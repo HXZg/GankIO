@@ -32,6 +32,8 @@
         <activity android:name=".activity.DetailActivity"/>
         <activity android:name="com.hxz.baseui.view.WebViewActivity"/>
         <activity android:name=".activity.GirlDetailActivity"/>
+        <activity android:name=".activity.SettingActivity"
+            android:label="setting"/>
     </application>
 
 </manifest>

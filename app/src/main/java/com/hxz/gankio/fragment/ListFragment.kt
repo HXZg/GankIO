@@ -48,10 +48,7 @@ class ListFragment : BaseFragment() {
         adapter.setClickInvoke { position, data ->
             if (adapter.getItemViewType(position) != 4) DetailActivity.startDetail(requireContext(),data._id)
             else {
-                val list = arrayListOf<ArticleListBean>().apply {
-                    addAll(adapter.data)
-                }
-                GirlDetailActivity.startGirlDetail(requireContext(),list,currentPage,position)
+                GirlDetailActivity.startGirlDetail(requireContext(),ArrayList(adapter.data),currentPage,position)
             }
         }
 

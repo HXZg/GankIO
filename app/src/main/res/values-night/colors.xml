@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#ffffff</color>
+
+    <color name="white_color">#ffffff</color>
+    <color name="black_color">#000000</color>
+    <color name="gray_color">#88ffffff</color>
+
+    <color name="bottom_bg_color">@color/black_color</color>
+    <color name="item_card_bg">@color/colorPrimary</color>
+    <color name="title_color">@color/white_color</color>
+    <color name="sub_title_color">#ffdddddd</color>
+    <color name="mark_color">#44ffffff</color>
+
+    <color name="bg_color">#ff444444</color>
+
+    <color name="main_txt_primary">@color/white_color</color>
+</resources>

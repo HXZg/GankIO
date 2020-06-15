@@ -1,6 +1,7 @@
 package com.hxz.gankio
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Environment
 import android.view.Menu
 import android.view.MenuItem
@@ -13,6 +14,7 @@ import com.hxz.baseui.util.LogUtils
 import com.hxz.baseui.view.BaseActivity
 import com.hxz.gankio.activity.HotActivity
 import com.hxz.gankio.activity.SearchActivity
+import com.hxz.gankio.activity.SettingActivity
 import com.hxz.gankio.fragment.ArticleFragment
 import com.hxz.gankio.fragment.GankFragment
 import com.hxz.gankio.fragment.HomeFragment
@@ -31,16 +33,26 @@ class MainActivity : BaseActivity() {
 
     override fun initData() {
         setSupportActionBar(tool_bar)
-        rg_main.forEachIndexed { index, view ->
+        /*rg_main.forEachIndexed { index, view ->
             view.id = index
         }
         rg_main.setOnCheckedChangeListener { group, checkedId ->
             mViewModel.value.saveIndex(checkedId)
+        }*/
+        btv_main.setOnNavigationItemSelectedListener {
+            val index = when(it.itemId){
+                R.id.main_home -> 0
+                R.id.main_gank -> 1
+                else -> 2
+            }
+            mViewModel.value.saveIndex(index)
+            true
         }
         mViewModel.value.getIndexPage().observe(this, Observer {
             if (it != null && it in 0..2) switchFragment(it)
         })
-        rg_main.check(0)
+        /*rg_main.check(0)*/
+        btv_main.selectedItemId = R.id.main_home
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -52,7 +64,7 @@ class MainActivity : BaseActivity() {
         when(item.itemId) {
             R.id.main_search -> startActivity(Intent(this,SearchActivity::class.java))
             R.id.main_hot -> startActivity(Intent(this,HotActivity::class.java))
-            R.id.main_set -> {}
+            R.id.main_set -> startActivity(Intent(this,SettingActivity::class.java))
         }
         return true
     }
