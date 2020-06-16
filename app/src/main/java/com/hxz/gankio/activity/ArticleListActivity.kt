@@ -6,16 +6,17 @@ import androidx.fragment.app.commit
 import com.hxz.baseui.view.BaseActivity
 import com.hxz.gankio.R
 import com.hxz.gankio.fragment.ListFragment
+import com.hxz.gankio.utils.startTActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class ArticleListActivity : BaseActivity() {
 
     companion object {
         fun startArticleList(context: Context,category: String,type: String) {
-            context.startActivity(Intent(context,ArticleListActivity::class.java).apply {
+            context.startTActivity<ArticleListActivity>{
                 putExtra(ListFragment.LIST_CATEGORY,category)
                 putExtra(ListFragment.LIST_TYPE,type)
-            })
+            }
         }
     }
 

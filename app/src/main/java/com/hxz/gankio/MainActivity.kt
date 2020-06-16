@@ -18,6 +18,7 @@ import com.hxz.gankio.activity.SettingActivity
 import com.hxz.gankio.fragment.ArticleFragment
 import com.hxz.gankio.fragment.GankFragment
 import com.hxz.gankio.fragment.HomeFragment
+import com.hxz.gankio.utils.startTActivity
 import com.hxz.gankio.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
@@ -26,7 +27,6 @@ class MainActivity : BaseActivity() {
 
     private val mViewModel = viewModels<MainViewModel>()
 
-    private val fragmentList = Array<Fragment?>(3){null}
     private val titles = arrayOf(R.string.home_text,R.string.gank_text,R.string.article_text)
 
     override fun bindLayout(): Int = R.layout.activity_main
@@ -62,9 +62,9 @@ class MainActivity : BaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
-            R.id.main_search -> startActivity(Intent(this,SearchActivity::class.java))
-            R.id.main_hot -> startActivity(Intent(this,HotActivity::class.java))
-            R.id.main_set -> startActivity(Intent(this,SettingActivity::class.java))
+            R.id.main_search -> startTActivity<SearchActivity>()
+            R.id.main_hot -> startTActivity<HotActivity>()
+            R.id.main_set -> startTActivity<SettingActivity>()
         }
         return true
     }
@@ -72,20 +72,13 @@ class MainActivity : BaseActivity() {
     private fun switchFragment(index: Int) {
         tool_bar.setSubtitle(titles[index])
         supportFragmentManager.commit {
-            fragmentList.forEach { if (it != null) hide(it) }
-            var f = fragmentList[index]
+            supportFragmentManager.fragments.forEach { hide(it) }
+            var f = supportFragmentManager.findFragmentByTag(getFragmentTag(index))
             if (f != null) {
                 show(f)
             } else {
-                f = supportFragmentManager.findFragmentByTag(getFragmentTag(index))
-                if (f == null) {
-                    f = getFragment(index)
-                    add(R.id.fl_main,f,getFragmentTag(index))
-                }else {
-                    show(f)
-                }
-                fragmentList[index] = f
-
+                f = getFragment(index)
+                add(R.id.fl_main,f,getFragmentTag(index))
             }
         }
     }

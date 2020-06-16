@@ -17,6 +17,7 @@ import com.hxz.gankio.adapter.BaseRvHolder
 import com.hxz.gankio.bean.ArticleDetailComments
 import com.hxz.gankio.utils.loadUrl
 import com.hxz.gankio.utils.setDarkColor
+import com.hxz.gankio.utils.startTActivity
 import com.hxz.gankio.viewmodel.DetailViewModel
 import kotlinx.android.synthetic.main.activity_detail.*
 
@@ -25,9 +26,9 @@ class DetailActivity : BaseMActivity<DetailViewModel>() {
     companion object {
         private const val ARTICLE_ID = "article_id"
         fun startDetail(context: Context,id: String) {
-            context.startActivity(Intent(context,DetailActivity::class.java).apply {
+            context.startTActivity<DetailActivity>{
                 putExtra(ARTICLE_ID,id)
-            })
+            }
         }
     }
 

@@ -7,6 +7,7 @@ import com.hxz.basehttp.bean.ArticleListBean
 import com.hxz.baseui.view.BaseActivity
 import com.hxz.gankio.R
 import com.hxz.gankio.adapter.GirlDetailAdapter
+import com.hxz.gankio.utils.startTActivity
 import kotlinx.android.synthetic.main.activity_detail_girl.*
 
 /**
@@ -20,11 +21,11 @@ class GirlDetailActivity : BaseActivity() {
 
     companion object {
         fun startGirlDetail(context: Context,list: ArrayList<ArticleListBean>,page: Int,position: Int) {
-            val i = Intent(context,GirlDetailActivity::class.java)
-            i.putExtra("girl_list",list)
-            i.putExtra("girl_page",page)
-            i.putExtra("girl_position",position)
-            context.startActivity(i)
+            context.startTActivity<GirlDetailActivity>{
+                putExtra("girl_list",list)
+                putExtra("girl_page",page)
+                putExtra("girl_position",position)
+            }
         }
     }
 
