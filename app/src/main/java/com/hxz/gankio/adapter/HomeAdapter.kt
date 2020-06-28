@@ -96,8 +96,8 @@ class HomeAdapter(context: Context) : BaseGankAdapter() {
             layoutParams = RecyclerView.LayoutParams(-1,-1)
             textSize = 16f
             gravity = Gravity.CENTER
-            setTextColor(Color.BLACK)
-            setBackgroundColor(Color.WHITE)
+            setTextColor(context.resources.getColor(R.color.title_color))
+            setBackgroundColor(context.resources.getColor(R.color.bg_color))
             text = "没有获取到数据噢~~~"
             setOnClickListener {
                 click?.invoke(ITEM_EMPTY,"")

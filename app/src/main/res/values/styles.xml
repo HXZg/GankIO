@@ -19,4 +19,11 @@
         <item name="popupMenuBackground">@color/bottom_bg_color</item>
     </style>
 
+    <style name="splash_tv" parent="Theme.MaterialComponents.DayNight">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/title_color</item>
+        <item name="android:textSize">40sp</item>
+    </style>
+
 </resources>
