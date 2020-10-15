@@ -1,6 +1,7 @@
 package com.hxz.gankio.repository
 
 import androidx.lifecycle.liveData
+import com.google.gson.GsonBuilder
 import com.hxz.basehttp.bean.BannerBean
 import com.hxz.basehttp.bean.BaseResponseBean
 import com.hxz.gankio.bean.HomeBean
@@ -22,7 +23,9 @@ class HomeRepository : BaseRepository() {
             val banner = async { getBanner() }
             val girl = async { getGirlBean() }
             val list = async { getArticleList(1) }
-            BaseResponseBean.success(HomeBean.getHomeBean(banner.await(),girl.await(),list.await()))
+            val bean = HomeBean.getHomeBean(banner.await(),girl.await(),list.await())
+            putDiskCache("home",GsonBuilder().create().toJson(bean))
+            BaseResponseBean.success(bean)
         }
     }
 

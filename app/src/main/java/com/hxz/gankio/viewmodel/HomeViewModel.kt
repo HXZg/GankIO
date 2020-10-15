@@ -1,9 +1,7 @@
 package com.hxz.gankio.viewmodel
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import com.google.gson.GsonBuilder
 import com.hxz.basehttp.bean.ArticleListBean
 import com.hxz.basehttp.bean.BannerBean
 import com.hxz.basehttp.bean.BaseResponseBean
@@ -32,5 +30,21 @@ class HomeViewModel : BaseViewModel() {
 
     fun setPage(page: Int) {
         pageLive.value = page
+    }
+
+    fun getCacheData() : LiveData<HomeBean> {
+        val cacheDataLive = MutableLiveData<HomeBean>()
+        viewModelScope.launch {
+            val data = repository.getDiskCache("home")
+            val result =
+                GsonBuilder().create().fromJson(data, HomeBean::class.java)
+            cacheDataLive.postValue(result)
+        }
+        return cacheDataLive
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        repository.diskCache.close()
     }
 }

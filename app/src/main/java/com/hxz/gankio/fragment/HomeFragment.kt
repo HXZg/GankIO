@@ -66,6 +66,9 @@ class HomeFragment : BaseMFragment<HomeViewModel>() {
     }
 
     private fun initObserve() {
+        viewModel.getCacheData().observe(this, Observer {
+            if (it != null) homeAdapter.setHomeBean(it)
+        })
         viewModel.homeDataLive.observe(this, Observer {
             currentPage = it.data?.page ?: 1
             if (it.data?.page == 1) smart_refresh.finishRefresh() else smart_refresh.finishLoadMore()

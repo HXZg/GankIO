@@ -8,6 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="SplashTheme" parent="AppTheme">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
     <style name="toolbar_theme" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
         <item name="overlapAnchor">false</item>
         <item name="actionMenuTextColor">@color/white_color</item>
